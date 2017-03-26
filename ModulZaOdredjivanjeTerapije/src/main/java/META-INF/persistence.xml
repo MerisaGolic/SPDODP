@@ -3,7 +3,6 @@
 	<persistence-unit name="ModulZaOdredjivanjeTerapije">
 		<class>ba.unsa.etf.Dijagnoze</class>
 		<class>ba.unsa.etf.DijagnozeLijekovi</class>
-		<class>ba.unsa.etf.DijagnozeLijekoviPK</class>
 		<class>ba.unsa.etf.Lijekovi</class>
 	</persistence-unit>
 </persistence>
