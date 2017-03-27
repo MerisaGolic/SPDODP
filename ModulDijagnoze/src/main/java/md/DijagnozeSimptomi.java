@@ -14,28 +14,28 @@ import javax.persistence.*;
 public class DijagnozeSimptomi implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private DijagnozeSimptomiPK id;
+	@Id
+	private int id;
 
 	//bi-directional many-to-one association to Dijagnoze
 	@ManyToOne
-	@JoinColumn(name="id_dijagnoze", insertable=false, updatable=false)
+	@JoinColumn(name="id_dijagnoze")
 	private Dijagnoze dijagnoze;
 
 	//bi-directional many-to-one association to Simptomi
 	@ManyToOne
-	@JoinColumn(name="id_simptoma", insertable=false, updatable=false)
+	@JoinColumn(name="id_simptoma")
 	private Simptomi simptomi;
 
 	public DijagnozeSimptomi() {
 	}
 
-	public DijagnozeSimptomiPK getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(DijagnozeSimptomiPK id) {
-		this.id = id;
+	public void setId(int id1, int id2) {
+		this.id = Integer.parseInt(Integer.toString(id1) + Integer.toString(id2));
 	}
 
 	public Dijagnoze getDijagnoze() {
