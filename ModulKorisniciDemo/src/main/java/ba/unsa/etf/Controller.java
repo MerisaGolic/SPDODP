@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.print.attribute.standard.Media;
@@ -76,5 +77,15 @@ public class Controller {
 		k.addPacijentiKorisnici(pk);
 		p.addPacijentiKorisnici(pk);
 	}
+	
+	@RequestMapping("/sviPacijentiDoktora")
+	 public List<Pacijenti> vratiPacijenteNavedenogDoktora(@RequestParam(value="idKorisnika", defaultValue="0") int idKorisnika)
+	 {
+	 	
+	 	List<Pacijenti> pacijentiDoktora = pr.vratiPacijente(idKorisnika);
+	 	
+	 	return pacijentiDoktora;
+	 			
+	 }
 	
 }
