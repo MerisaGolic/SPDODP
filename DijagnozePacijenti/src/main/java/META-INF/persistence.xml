@@ -3,7 +3,6 @@
 	<persistence-unit name="DijagnozePacijenti">
 		<class>model.Dijagnoze</class>
 		<class>model.DijagnozePacijenti</class>
-		<class>model.DijagnozePacijentiPK</class>
 		<class>model.Pacijenti</class>
 	</persistence-unit>
 </persistence>

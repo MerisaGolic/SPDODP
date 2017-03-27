@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.Date;
 
 
 /**
@@ -14,28 +15,42 @@ import javax.persistence.*;
 public class DijagnozePacijenti implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private DijagnozePacijentiPK id;
+	@Id
+	private int id;
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="datum_dijagnoze")
+	private Date datumDijagnoze;
 
 	//bi-directional many-to-one association to Dijagnoze
 	@ManyToOne
-	@JoinColumn(name="id_dijagnoze", insertable=false, updatable=false)
+	@JoinColumn(name="id_dijagnoze")
 	private Dijagnoze dijagnoze;
 
 	//bi-directional many-to-one association to Pacijenti
 	@ManyToOne
-	@JoinColumn(name="id_pacijenta", insertable=false, updatable=false)
+	@JoinColumn(name="id_pacijenta")
 	private Pacijenti pacijenti;
 
 	public DijagnozePacijenti() {
 	}
 
-	public DijagnozePacijentiPK getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(DijagnozePacijentiPK id) {
-		this.id = id;
+	public void setId(int idPacijenta, int idDijagnoze) {
+		 String id;
+		 id = Integer.toString(idPacijenta) + Integer.toString(idDijagnoze);
+		 this.id = Integer.parseInt(id);
+	}
+
+	public Date getDatumDijagnoze() {
+		return this.datumDijagnoze;
+	}
+
+	public void setDatumDijagnoze(Date datumDijagnoze) {
+		this.datumDijagnoze = datumDijagnoze;
 	}
 
 	public Dijagnoze getDijagnoze() {
