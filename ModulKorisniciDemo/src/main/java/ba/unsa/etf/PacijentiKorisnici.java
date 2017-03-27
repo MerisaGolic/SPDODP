@@ -14,28 +14,30 @@ import javax.persistence.*;
 public class PacijentiKorisnici implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private PacijentiKorisniciPK id;
+	@Id
+	private int id;
 
 	//bi-directional many-to-one association to Korisnici
 	@ManyToOne
-	@JoinColumn(name="id_korisnika", insertable=false, updatable=false)
+	@JoinColumn(name="id_korisnika")
 	private Korisnici korisnici;
 
 	//bi-directional many-to-one association to Pacijenti
 	@ManyToOne
-	@JoinColumn(name="id_korisnika", insertable=false, updatable=false)
+	@JoinColumn(name="id_pacijenta")
 	private Pacijenti pacijenti;
 
 	public PacijentiKorisnici() {
 	}
 
-	public PacijentiKorisniciPK getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(PacijentiKorisniciPK id) {
-		this.id = id;
+	public void setId(int idKorisnika, int idPacijenta) {
+		String komb;
+		komb = Integer.toString(idKorisnika) + Integer.toString(idPacijenta);
+		this.id = Integer.parseInt(komb);
 	}
 
 	public Korisnici getKorisnici() {

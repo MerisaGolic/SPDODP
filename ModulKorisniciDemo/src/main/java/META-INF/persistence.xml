@@ -4,6 +4,5 @@
 		<class>ba.unsa.etf.Korisnici</class>
 		<class>ba.unsa.etf.Pacijenti</class>
 		<class>ba.unsa.etf.PacijentiKorisnici</class>
-		<class>ba.unsa.etf.PacijentiKorisniciPK</class>
 	</persistence-unit>
 </persistence>
