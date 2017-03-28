@@ -35,19 +35,22 @@ public class Controller {
 		
         return listaDijagnoza;
     }
+	
 	@RequestMapping(value = "/dodavanjeDijagnoze", method = RequestMethod.GET)
-    public String m2(@RequestParam (value="dijagnoza", defaultValue="") String dijagnoza, @RequestParam (value="opis", defaultValue="") String opis) 
+    public String m2(@RequestParam (value="dijagnoza", defaultValue="") String dijagnoza, 
+    		         @RequestParam (value="opis", defaultValue="") String opis) 
 	{
 		Dijagnoze d = new Dijagnoze();
 		d.setNaziv(dijagnoza);
 		d.setOpis(opis);
 		dr.save(d);
 		
-		return "udure";
+		return "uredu";
 	}
 	
 	@RequestMapping(value = "/novaDijagnoza", method = RequestMethod.GET)
-    public String m3(@RequestParam (value="simptomi", defaultValue="") String simptomi, @RequestParam (value="dijagnoza", defaultValue="") String dijagnoza) 
+    public String m3(@RequestParam (value="simptomi", defaultValue="") String simptomi, 
+    		         @RequestParam (value="dijagnoza", defaultValue="") String dijagnoza) 
 	{
 		String delims = "[,]";
 		String[] tokens = simptomi.split(delims);
