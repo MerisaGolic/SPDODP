@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.print.attribute.standard.Media;
 
-import org.eclipse.persistence.oxm.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -87,5 +87,16 @@ public class Controller {
 	 	return pacijentiDoktora;
 	 			
 	 }
+	
+	@RequestMapping("/provjeriPacijentaTest")
+	public Boolean provjeriPacijentaTest()
+	{
+		Pacijenti p = pr.findOne(1);
+		if(p == null)
+		{
+			return false;
+		}
+		return true;
+	}
 	
 }
