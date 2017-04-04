@@ -45,5 +45,16 @@ public class ControllerDijagnozePacijenti {
 	 	return dijagnozePacijenta;
 	 			
 	 }
+	 
+	 @RequestMapping("/provjeriDijagnozuTest")
+	 public Boolean provjeriDijagnozuTest()
+	 {
+	 	Dijagnoze d = dRepo.findOne(1);
+	 	if(d == null)
+	 	{
+	 		return false;
+	 	}
+	 	return true;
+	 }
 
 }

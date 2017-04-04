@@ -3,6 +3,7 @@ package md;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -36,4 +38,23 @@ class ServiceInstanceRestController {
             @PathVariable String applicationName) {
         return this.discoveryClient.getInstances(applicationName);
     }
+}
+
+@RestController
+@EnableFeignClients(basePackages = {"ba.unsa.etf", "md", "model"})
+class KomunikacijaController {
+	@Autowired DijagnozeClient dc;
+	
+	@RequestMapping("/get-pozdrav")
+    public String pozdrav(Model model) {
+        return "pozdrav";
+    }
+	
+	@RequestMapping(value= "/get-provjeri-dijagnozu-test")
+	public Boolean provjeriDijagnozuTest()
+	{
+		return dc.provjeriDijagnozuTest();
+	}
+	
+	
 }
