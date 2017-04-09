@@ -15,6 +15,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,6 +77,13 @@ class KomunikacijaController {
 		return kc.provjeriPacijentaTest();
 	}
 	
+	@RequestMapping(value= "/brisanje-pacijenta-po-imenu-i-prezimenu", method=RequestMethod.GET)
+	@ResponseBody
+	public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime) {
+		
+		return kc.brisanjePacijenta(imePrezime);
+		
+	}
 	
 }
 

@@ -44,7 +44,7 @@ public class Controller {
 	
 	@RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
 	@ResponseBody
-	public String brisanjePacijenta(@RequestParam String imePrezime) {
+	public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime) {
 		
 		int id = pr.findIdByName(imePrezime);
 		pr.delete(id);
