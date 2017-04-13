@@ -5,8 +5,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 @RestController
 public class ControllerDijagnozePacijenti {
@@ -49,12 +52,40 @@ public class ControllerDijagnozePacijenti {
 	 @RequestMapping("/provjeriDijagnozuTest")
 	 public Boolean provjeriDijagnozuTest()
 	 {
+		
 	 	Dijagnoze d = dRepo.findOne(1);
 	 	if(d == null)
 	 	{
 	 		return false;
 	 	}
 	 	return true;
+	 }
+	 
+	 @RequestMapping(value="/provjeriDijagnozuTestParam", method = RequestMethod.GET)
+	 @ResponseBody
+	 public Boolean provjeriDijagnozuTestParam(@RequestParam(value="id")Integer id)
+	 {
+	 	Dijagnoze d = dRepo.findOne(id);
+	 	if(d == null)
+	 	{
+	 		return false;
+	 	}
+	 	return true;
+	 }
+	 
+	 @RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.GET)
+	 @ResponseBody
+	 public String prijemDijagnoze1(@RequestParam(value="naziv") String naziv, @RequestParam(value="opis") String opis)
+	 {
+		 //ovdje insert
+		 Dijagnoze d = new Dijagnoze();
+		 d.setNaziv(naziv);
+		 d.setOpis(opis);
+		 d.setKoristi(0);
+		 d.setPostotak("");
+		 dRepo.save(d);
+		 
+		 return "sve proslo - armin";
 	 }
 
 }

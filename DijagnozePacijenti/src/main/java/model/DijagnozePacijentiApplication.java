@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.ui.Model;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
-
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableJpaRepositories(basePackages = {"model"})
