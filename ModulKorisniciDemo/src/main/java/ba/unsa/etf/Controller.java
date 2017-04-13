@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.print.attribute.standard.Media;
-
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
@@ -40,11 +40,11 @@ public class Controller {
 	
 	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	@ResponseBody
-	public Pacijenti unosPacijenta (@RequestBody Pacijenti req){
+	public Pacijenti unosPacijenta (@RequestBody Pacijenti req,HttpSession session){
 		
 		Pacijenti p = new Pacijenti();
 		p=pr.save(req);
-		povezi(1,pr.findIdByName(p.getImePrezime())); // treba skontati kako id logovanog doktor dobiti
+		povezi(((Korisnici)session.getAttribute("loggedInUser")).getId(),pr.findIdByName(p.getImePrezime()));
 		dpc.unosPacijenta(req);
 		return p;
 	}
@@ -61,13 +61,14 @@ public class Controller {
 	
 	@RequestMapping(value= "/login")
 	@ResponseBody
-	public String login(@RequestParam String username, @RequestParam String password) {
+	public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
 		
 		Korisnici k = null;
 		k = kr.provjeriLogin(username, password);
-		if (k != null)
+		if (k != null){
+			session.setAttribute("loggedInUser", k);
 			return "Succesfully loged in!";
-		else
+		}else
 			return "False username or password";
 	}
 	
