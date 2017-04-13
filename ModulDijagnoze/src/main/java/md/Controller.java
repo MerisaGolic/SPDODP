@@ -34,6 +34,9 @@ public class Controller {
 	@Autowired 
 	DijagnozeClient dc;
 	
+	@Autowired 
+	LijekoviClient lc;
+	
 	@RequestMapping(value = "/dijagnosticiranje", method = RequestMethod.GET)
     public List<Dijagnoze> m1(@RequestParam String simptomi) 
 	{	
@@ -55,9 +58,10 @@ public class Controller {
 		d.setOpis(opis);
 		dr.save(d);
 		String poruka = dc.proslijediDijagnozu1(dijagnoza, opis);
+		String poruka2 = lc.proslijediDijagnozu1(dijagnoza, opis);
 		
 		
-		return poruka;
+		return poruka + " " + poruka2;
 		//return "uredu";
 	}
 	

@@ -2,7 +2,9 @@ package ba.unsa.etf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -78,7 +80,21 @@ public class LijekoviController {
 		
 		return doza;
 	}
-			
+	
+	
+	@RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.GET)
+	@ResponseBody
+	public String prijemDijagnoze1(@RequestParam(value="naziv") String naziv, @RequestParam(value="opis") String opis)
+	{
+		//ovdje insert
+		Dijagnoze d = new Dijagnoze();
+		d.setNaziv(naziv);
+		d.setOpis(opis);
+		d.setKoristi(0);
+		d.setPostotak(0);
+		dr.save(d);
+		return "sve proslo - adi";
+	}
 	
 
 }
