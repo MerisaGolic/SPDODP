@@ -11,6 +11,7 @@ import javax.print.attribute.standard.Media;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import ba.unsa.etf.Pacijenti;
 import ba.unsa.etf.PacijentiRepository;
 
 @RestController
+@EnableFeignClients(basePackages = {"ba.unsa.etf","model"})
 public class Controller {
 	@Autowired
 	private PacijentiRepository pr;
@@ -33,13 +35,18 @@ public class Controller {
 	@Autowired
 	private PacijentiKorisniciRepository pkr;
 	
-	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta", headers="Accept=application/json", produces="application/json")
-	@ResponseBody
+	@Autowired
+	private DijagnozePacijentiClient dpc;
 	
+	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
+	@ResponseBody
 	public Pacijenti unosPacijenta (@RequestBody Pacijenti req){
 		
-		return pr.save(req);
-		
+		Pacijenti p = new Pacijenti();
+		p=pr.save(req);
+		povezi(1,pr.findIdByName(p.getImePrezime())); // treba skontati kako id logovanog doktor dobiti
+		dpc.unosPacijenta(req);
+		return p;
 	}
 	
 	@RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
@@ -48,6 +55,7 @@ public class Controller {
 		
 		int id = pr.findIdByName(imePrezime);
 		pr.delete(id);
+		dpc.brisanjePacijenta(imePrezime);
 		return "User succesfully deleted!";
 	}
 	

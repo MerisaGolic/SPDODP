@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -87,5 +88,23 @@ public class ControllerDijagnozePacijenti {
 		 
 		 return "sve proslo - armin";
 	 }
+	 
+	 @RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
+	 @ResponseBody
+	 public Pacijenti unosPacijenta (@RequestBody Pacijenti req){
+			
+			Pacijenti p = new Pacijenti();
+			p=pRepo.save(req);
+			return p;
+	 }
+	 
+	 @RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
+		@ResponseBody
+		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime) {
+			
+			int id = pRepo.findIdByName(imePrezime);
+			pRepo.delete(id);
+			return "User succesfully deleted!";
+		}
 
 }
