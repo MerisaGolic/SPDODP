@@ -10,4 +10,6 @@ public interface KorisniciRepository extends PagingAndSortingRepository<Korisnic
 	
 	@Query("SELECT k FROM Korisnici k WHERE LOWER(k.username) = LOWER(:user) AND LOWER(k.password) = LOWER(:pass)")
     public Korisnici provjeriLogin(@Param("user") String user, @Param("pass") String pass);
+	
+	Korisnici findByUsername(String username);
 }
