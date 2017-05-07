@@ -59,7 +59,7 @@ public class Controller {
 		return "User succesfully deleted!";
 	}
 	
-	@RequestMapping(value= "/login")
+	@RequestMapping(value= "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
 		
