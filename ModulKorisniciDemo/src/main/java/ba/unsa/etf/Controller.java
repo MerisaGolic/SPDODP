@@ -35,7 +35,7 @@ public class Controller {
 	
 	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	@ResponseBody
-	public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Authorization") String token, HttpSession session){
+	public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Authorization") String token){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String korisnikUsername = auth.getName();
 		
@@ -49,11 +49,11 @@ public class Controller {
 	
 	@RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
 	@ResponseBody
-	public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime) {
+	public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Authorization") String token) {
 		
 		int id = pr.findIdByName(imePrezime);
 		pr.delete(id);
-		dpc.brisanjePacijenta(imePrezime);
+		dpc.brisanjePacijenta(imePrezime,token);
 		return "User succesfully deleted!";
 	}
 	

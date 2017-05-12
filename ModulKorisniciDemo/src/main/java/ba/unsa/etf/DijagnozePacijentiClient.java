@@ -20,5 +20,5 @@ public interface DijagnozePacijentiClient {
 	
 	 @RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
 		@ResponseBody
-		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime);
+		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Authorization") String token);
 }

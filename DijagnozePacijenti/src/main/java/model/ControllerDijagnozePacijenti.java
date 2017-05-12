@@ -101,7 +101,7 @@ public class ControllerDijagnozePacijenti {
 	 
 	 @RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
 		@ResponseBody
-		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime) {
+		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Authorization") String token) {
 			
 			int id = pRepo.findIdByName(imePrezime);
 			pRepo.delete(id);
