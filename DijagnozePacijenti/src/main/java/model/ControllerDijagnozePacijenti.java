@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,7 +92,7 @@ public class ControllerDijagnozePacijenti {
 	 
 	 @RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	 @ResponseBody
-	 public Pacijenti unosPacijenta (@RequestBody Pacijenti req){
+	 public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Authorization") String token){
 			
 			Pacijenti p = new Pacijenti();
 			p=pRepo.save(req);

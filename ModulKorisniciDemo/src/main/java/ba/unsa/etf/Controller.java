@@ -1,19 +1,12 @@
 package ba.unsa.etf;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-
-import javax.print.attribute.standard.Media;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,12 +33,12 @@ public class Controller {
 	
 	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	@ResponseBody
-	public Pacijenti unosPacijenta (@RequestBody Pacijenti req,HttpSession session){
+	public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Authorization") String token, HttpSession session){
 		
 		Pacijenti p = new Pacijenti();
 		p=pr.save(req);
-		povezi(((Korisnici)session.getAttribute("loggedInUser")).getId(),pr.findIdByName(p.getImePrezime()));
-		dpc.unosPacijenta(req);
+		//povezi(((Korisnici)session.getAttribute("loggedInUser")).getId(),pr.findIdByName(p.getImePrezime()));
+		dpc.unosPacijenta(req,token);
 		return p;
 	}
 	

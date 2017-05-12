@@ -1,4 +1,4 @@
-package ba.unsa.etf.security;
+package model.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,7 +11,7 @@ import java.util.Date;
 
 import static java.util.Collections.emptyList;
 
-public class TokenAuthenticationService {
+class TokenAuthenticationService {
   static final long EXPIRATIONTIME = 864_000_000; // 10 dana
   static final String SECRET = "ThisIsASecret";
   static final String TOKEN_PREFIX = "Bearer";
