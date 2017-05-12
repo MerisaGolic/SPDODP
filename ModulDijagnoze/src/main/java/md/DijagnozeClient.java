@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import md.models.Dijagnoze;
 
-@FeignClient("modulDijagnozePacijenti")
+@FeignClient("modul-dijagnoze-pacijenti")
 
 public interface DijagnozeClient {
 	

@@ -12,7 +12,7 @@ import ba.unsa.etf.Pacijenti;
 
 
 
-@FeignClient("modulDijagnozePacijenti")
+@FeignClient("modul-dijagnoze-pacijenti")
 public interface DijagnozePacijentiClient {
 	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	 @ResponseBody
