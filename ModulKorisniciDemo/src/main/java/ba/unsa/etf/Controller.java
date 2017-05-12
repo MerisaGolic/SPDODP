@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import ba.unsa.etf.Pacijenti;
 import ba.unsa.etf.PacijentiRepository;
@@ -34,10 +36,13 @@ public class Controller {
 	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	@ResponseBody
 	public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Authorization") String token, HttpSession session){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String korisnikUsername = auth.getName();
 		
 		Pacijenti p = new Pacijenti();
 		p=pr.save(req);
-		//povezi(((Korisnici)session.getAttribute("loggedInUser")).getId(),pr.findIdByName(p.getImePrezime()));
+
+		povezi(kr.findByUsername(korisnikUsername).getId(), pr.findIdByName(p.getImePrezime()));
 		dpc.unosPacijenta(req,token);
 		return p;
 	}

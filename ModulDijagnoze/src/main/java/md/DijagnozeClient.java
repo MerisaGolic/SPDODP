@@ -1,6 +1,7 @@
 package md;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,6 @@ public interface DijagnozeClient {
 	
 	@RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.GET)
 	@ResponseBody
-	public String proslijediDijagnozu1(@RequestParam(value="naziv") String naziv, @RequestParam(value="opis") String opis);
+	public String proslijediDijagnozu1(@RequestParam(value="naziv") String naziv, @RequestParam(value="opis") String opis, @RequestHeader(value="Authorization") String token);
 	
 }

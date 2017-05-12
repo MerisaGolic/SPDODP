@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,14 +52,15 @@ public class Controller {
 	
 	@RequestMapping(value = "/dodavanjeDijagnoze", method = RequestMethod.GET)
     public String m2(@RequestParam (value="dijagnoza", defaultValue="") String dijagnoza, 
-    		         @RequestParam (value="opis", defaultValue="") String opis) 
+    		         @RequestParam (value="opis", defaultValue="") String opis,
+    		         @RequestHeader(value="Authorization") String token) 
 	{
 		Dijagnoze d = new Dijagnoze();
 		d.setNaziv(dijagnoza);
 		d.setOpis(opis);
 		dr.save(d);
-		String poruka = dc.proslijediDijagnozu1(dijagnoza, opis);
-		String poruka2 = lc.proslijediDijagnozu1(dijagnoza, opis);
+		String poruka = dc.proslijediDijagnozu1(dijagnoza, opis, token);
+		String poruka2 = lc.proslijediDijagnozu1(dijagnoza, opis, token);
 		
 		
 		return poruka + " " + poruka2;
