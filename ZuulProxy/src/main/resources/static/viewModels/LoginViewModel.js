@@ -6,7 +6,7 @@ function LoginViewModel() {
 		$.ajax("/modul-za-korisnike/login", {
 			data: ko.toJSON({ username: self.username, password: self.password}),
 			type: "post", contentType: "application/json",
-			success: function(result) { alert(result) }
+			success: function(data, textStatus, request) { alert(request.getResponseHeader('Authorization')); }
 		});
 	};
 }
