@@ -5,6 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
@@ -23,16 +24,29 @@ public class TokenAuthenticationService {
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
         .signWith(SignatureAlgorithm.HS512, SECRET)
         .compact();
-    res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+    Cookie cookie = new Cookie(HEADER_STRING, JWT);
+    cookie.setPath("/");
+    cookie.setHttpOnly(true);
+    res.addCookie(cookie);
   }
 
   static Authentication getAuthentication(HttpServletRequest request) {
-    String token = request.getHeader(HEADER_STRING);
+	Cookie cookies[] = request.getCookies();
+	Cookie cookie = new Cookie("naziv", null);
+	for(int i = 0; i < cookies.length; i++)
+	{
+		if(cookies[i].getName().equals("Authorization"))
+		{
+			cookie = cookies[i];
+			break;
+		}
+    }
+	String token = cookie.getValue();
     if (token != null) {
       // parse the token.
       String user = Jwts.parser()
           .setSigningKey(SECRET)
-          .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+          .parseClaimsJws(" "+ token)
           .getBody()
           .getSubject();
 
