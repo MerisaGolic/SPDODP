@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Symptom this!!!</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+  
+  <link rel="stylesheet" href="css\login.css" >
+</head>
+
+<body>
+<div class="container" >
+	<section id="content" data-ng-app="myApp" >
+		<form data-ng-controller="myController" data-ng-submit="posalji()" >
+			<h1>Login</h1>
+			<p> {{ message }}</p>
+			<div>
+				<input type="text" placeholder="Username" id="username" data-ng-model="username"/>
+			</div>
+			<div>
+				<input type="password" placeholder="Password" id="password" data-ng-model="password"/>
+			</div>
+			<div>
+				<input type="submit" value="Log in" />
+			</div>
+		</form><!-- form -->
+	</section><!-- content -->
+</div><!-- container -->
+<script src = "js/app.js"></script>
+<script src = "js/controller/controller.js"></script>
+</body>
+</html>

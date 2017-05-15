@@ -1,4 +1,15 @@
-@CHARSET "ISO-8859-1";
+.dugme {
+	background-color: #000080;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+	width: 250px; 
+	height: 50px;
+}
+
 #okvir{
 	width: 998px;
 	height: 750px;
@@ -12,16 +23,14 @@
 }
 
 #opis{
-	vertical-align: left;
 	width: 60%;
 	float: left;
 	text-align: justify;
 	margin-left: 3%;
 }
 
-#buttoni{
+.buttoni{
 	text-align: right;
-	verlical-align: right;
 	width: 30%;
 	float: right;
 	margin-right: 3%;
@@ -33,16 +42,5 @@ hr{
     box-shadow: inset 0 12px 12px -12px #000033;
 }
 
-.dugme{
-	
-	background-color: #000080;
-    border: none;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-	width: 250px; 
-	height: 50px;
-	}
+
 
