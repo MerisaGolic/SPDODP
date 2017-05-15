@@ -1,0 +1,21 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.simptomiH1-2 {
+	text-align: center;
+}
+
+ul li a {
+	float: right;
+}
+
+#postotak,#postaviDijagnozuButton {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
