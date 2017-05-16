@@ -39,7 +39,7 @@ public class Controller {
 	
 	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	@ResponseBody
-	public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Authorization") String token){
+	public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @CookieValue("Authorization") String cookie){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String korisnikUsername = auth.getName();
 		
@@ -47,17 +47,20 @@ public class Controller {
 		p=pr.save(req);
 
 		povezi(kr.findByUsername(korisnikUsername).getId(), pr.findIdByName(p.getImePrezime()));
-		dpc.unosPacijenta(req,token);
+		String novi = "Authorization=" + cookie;
+		System.out.println(novi);
+		dpc.unosPacijenta(req,novi);
 		return p;
 	}
 	
 	@RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
 	@ResponseBody
-	public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Authorization") String token) {
+	public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @CookieValue("Authorization") String cookie) {
 		
 		int id = pr.findIdByName(imePrezime);
 		pr.delete(id);
-		dpc.brisanjePacijenta(imePrezime,token);
+		String novi = "Authorization=" + cookie;
+		dpc.brisanjePacijenta(imePrezime,novi);
 		return "User succesfully deleted!";
 	}
 	

@@ -92,7 +92,7 @@ public class ControllerDijagnozePacijenti {
 	 
 	 @RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	 @ResponseBody
-	 public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Authorization") String token){
+	 public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Cookie") String token){
 			
 			Pacijenti p = new Pacijenti();
 			p=pRepo.save(req);
@@ -101,7 +101,7 @@ public class ControllerDijagnozePacijenti {
 	 
 	 @RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
 		@ResponseBody
-		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Authorization") String token) {
+		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Cookie") String cookie) {
 			
 			int id = pRepo.findIdByName(imePrezime);
 			pRepo.delete(id);
