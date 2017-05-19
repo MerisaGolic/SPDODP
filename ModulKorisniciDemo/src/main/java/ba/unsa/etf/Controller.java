@@ -1,5 +1,9 @@
 package ba.unsa.etf;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -18,18 +22,26 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import ba.unsa.etf.Pacijenti;
 import ba.unsa.etf.PacijentiRepository;
+import ba.unsa.etf.security.TokenAuthenticationService;
 
+@Component
 @RestController
 @EnableFeignClients(basePackages = {"ba.unsa.etf","model"})
 public class Controller {
 	@Autowired
 	private PacijentiRepository pr;
 	
+	static KorisniciRepository kr;
+	
 	@Autowired
-	private KorisniciRepository kr;
+	public Controller(KorisniciRepository kr)
+	{
+		Controller.kr = kr;
+	}
 	
 	@Autowired
 	private PacijentiKorisniciRepository pkr;
@@ -111,6 +123,27 @@ public class Controller {
 			return false;
 		}
 		return true;
+	}
+	
+	@RequestMapping("/provjeriZadnjuPromjenuPassworda")
+	public int provjeriZadnjuPromjenuPassworda(@RequestParam(value="user") String user, @RequestParam(value="issuedAt") String issuedAt, @RequestHeader(value="Cookie") String cookie) 
+	{
+		System.out.println(cookie);
+		Korisnici k = kr.findByUsername(user);
+		
+		DateFormat df = new SimpleDateFormat("EEE MMMM dd HH:mm:ss zzzz yyyy");
+		
+		Date datum = new Date();
+		try
+		{
+			datum = df.parse(issuedAt);
+		}
+		catch (ParseException e) {
+		    e.printStackTrace();
+		}
+
+	      
+	    return k.getPromjenaPassworda().compareTo(datum);
 	}
 	
 	
