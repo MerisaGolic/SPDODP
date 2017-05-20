@@ -1,17 +1,24 @@
 package ba.unsa.etf;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -20,18 +27,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.google.gson.Gson;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import ba.unsa.etf.Pacijenti;
 import ba.unsa.etf.PacijentiRepository;
+import ba.unsa.etf.security.PasswordResetTokenAuthenticationService;
 import ba.unsa.etf.security.TokenAuthenticationService;
 
 @Component
 @RestController
 @EnableFeignClients(basePackages = {"ba.unsa.etf","model"})
 public class Controller {
+	@Autowired
+    private JavaMailSender javaMailSender;
+	
+	
+	private PasswordResetTokenAuthenticationService prt;
+	
 	@Autowired
 	private PacijentiRepository pr;
 	
@@ -144,6 +161,50 @@ public class Controller {
 
 	      
 	    return k.getPromjenaPassworda().compareTo(datum);
+	}
+	
+	@RequestMapping(value = "/korisnik/resetPassword", method = RequestMethod.POST)
+	@ResponseBody
+	public String resetPassword(HttpServletRequest request, @RequestParam String email) 
+	{
+		prt = new PasswordResetTokenAuthenticationService();
+		Korisnici k = kr.findByEmail(email);
+		String token = prt.kreirajToken(k.getUsername());
+		MimeMessage mail = javaMailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+            helper.setTo(email);
+            helper.setFrom("projekatnwt@gmail.com");
+            helper.setSubject("Promjena passworda");
+            helper.setText("http://localhost:8081/modul-za-korisnike/korisnik/promjenaPassworda" + "?id=" + k.getId() + "&token=" + token);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } finally {}
+        javaMailSender.send(mail);
+		return "ok";
+	}
+	
+	@RequestMapping(value = "/korisnik/promjenaPassworda", method = RequestMethod.GET)
+	public String promjenaPassworda(@RequestParam("id") int id, @RequestParam("token") String token)
+	{
+		prt = new PasswordResetTokenAuthenticationService();
+		return prt.validirajToken(token);
+	}
+	
+	@RequestMapping(value = "/korisnik/sacuvajPassword", method = RequestMethod.POST)
+	@ResponseBody
+	public String savePassword(@RequestBody String json) 
+	{
+	    String user = SecurityContextHolder.getContext().getAuthentication().getName();
+	    System.out.println(user); 
+	    Korisnici k = kr.findByUsername(user);
+	    Map jsonJavaRootObject = new Gson().fromJson(json, Map.class);
+	    String password = jsonJavaRootObject.get("password").toString();
+	    System.out.println(password); 
+	    k.setPassword(password);
+	    k.setPromjenaPassworda(new Timestamp(System.currentTimeMillis()));
+	    kr.save(k);
+	    return "Password promijenjen!";
 	}
 	
 	

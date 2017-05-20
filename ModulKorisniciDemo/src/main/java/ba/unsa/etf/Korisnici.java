@@ -25,6 +25,8 @@ public class Korisnici implements Serializable {
 	
 	@Column(name="promjena_passworda")
 	private Timestamp promjenaPassworda;
+	
+	private String email;
 
 	//bi-directional many-to-many association to Pacijenti
 	@ManyToMany(mappedBy="korisnicis")
@@ -68,6 +70,15 @@ public class Korisnici implements Serializable {
 	
 	public void setPromjenaPassworda(Timestamp promjena) {
 		this.promjenaPassworda = promjena;
+	}
+	
+	public String getEmail(){
+		return this.email;
+	}
+	
+	public void setEmail(String email)
+	{
+		this.email = email;
 	}
 	
 	
