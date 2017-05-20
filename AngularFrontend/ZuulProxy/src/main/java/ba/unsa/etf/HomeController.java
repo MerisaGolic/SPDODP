@@ -1,5 +1,7 @@
 package ba.unsa.etf;
 
+import javax.servlet.http.*;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +25,16 @@ public class HomeController {
 	public String login() {
 		
 		return "prijava.html";
+	}
+	
+	@RequestMapping(value = "/logout", method=RequestMethod.GET)
+	@ResponseBody
+	public String logout(HttpServletRequest request, HttpServletResponse response) {
+		Cookie cookie = new Cookie("Authorization", null);
+		cookie.setPath("/");
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
+	    return "ok";
 	}
 	
 	@RequestMapping(value = "/provjeraLogina", method = RequestMethod.GET)
