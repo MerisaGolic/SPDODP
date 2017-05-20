@@ -55,14 +55,17 @@ public class TokenAuthenticationService {
   static Authentication getAuthentication(HttpServletRequest request){
 	Cookie cookies[] = request.getCookies();
 	Cookie cookie = new Cookie("naziv", null);
-	for(int i = 0; i < cookies.length; i++)
+	if(cookies != null)
 	{
-		if(cookies[i].getName().equals("Authorization"))
+		for(int i = 0; i < cookies.length; i++)
 		{
-			cookie = cookies[i];
-			break;
-		}
-    }
+			if(cookies[i].getName().equals("Authorization"))
+			{
+				cookie = cookies[i];
+				break;
+			}
+	    }
+	}
 	String token = cookie.getValue();
 	String novi = "Authorization=" + token;
 	System.out.println(novi);
