@@ -2,16 +2,31 @@ package model.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import model.DijagnozePacijentiFeign;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CookieValue;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 import static java.util.Collections.emptyList;
 
-class TokenAuthenticationService {
+@Component
+public class TokenAuthenticationService {
+	static DijagnozePacijentiFeign dpf;
+	
+	@Autowired
+	public TokenAuthenticationService(DijagnozePacijentiFeign dpf)
+	{
+		TokenAuthenticationService.dpf = dpf;
+	}
+	
   static final long EXPIRATIONTIME = 864_000_000; // 10 dana
   static final String SECRET = "ThisIsASecret";
   static final String TOKEN_PREFIX = "Bearer";
@@ -23,23 +38,56 @@ class TokenAuthenticationService {
         .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
         .signWith(SignatureAlgorithm.HS512, SECRET)
         .compact();
-    res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+    Cookie cookie = new Cookie(HEADER_STRING, JWT);
+    cookie.setHttpOnly(true);
+    res.addCookie(cookie);
   }
 
   static Authentication getAuthentication(HttpServletRequest request) {
-    String token = request.getHeader(HEADER_STRING);
-    if (token != null) {
-      // parse the token.
-      String user = Jwts.parser()
-          .setSigningKey(SECRET)
-          .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-          .getBody()
-          .getSubject();
+	  Cookie cookies[] = request.getCookies();
+		Cookie cookie = new Cookie("naziv", null);
+		for(int i = 0; i < cookies.length; i++)
+		{
+			if(cookies[i].getName().equals("Authorization"))
+			{
+				cookie = cookies[i];
+				break;
+			}
+	    }
+		String token = cookie.getValue();
+		String novi = "Authorization=" + token;
+		System.out.println(novi);
+	    if (token != null) 
+	    {
+	      // parse the token.
+	      String issuedAt = Jwts.parser()
+	    		  .setSigningKey(SECRET)
+	    		  .parseClaimsJws(" " + token)
+	    		  .getBody()
+	    		  .getIssuedAt().toString();
 
-      return user != null ?
-          new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
-          null;
-    }
-    return null;
-  }
+	      String user = Jwts.parser()
+	    		  .setSigningKey(SECRET)
+	    		  .parseClaimsJws(" "+ token)
+	    		  .getBody()
+	    		  .getSubject();
+	      System.out.println(user);
+	      System.out.println(issuedAt);
+	      
+	      
+	      int poredjenje = dpf.provjeriZadnjuPromjenuPassworda(user, issuedAt, novi);
+	      
+	      System.out.println(poredjenje);
+
+	      /*return user != null ?
+	          new UsernamePasswordAuthenticationToken(user, null, emptyList()) :
+	          null;*/
+	      if(user != null && poredjenje < 0)
+	    	  return new UsernamePasswordAuthenticationToken(user, null, emptyList());
+	      else
+	    	  return null;
+	 
+	    }
+	    return null;
+	  }
 }

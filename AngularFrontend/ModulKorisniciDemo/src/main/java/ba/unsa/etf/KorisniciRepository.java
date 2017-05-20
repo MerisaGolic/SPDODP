@@ -12,4 +12,6 @@ public interface KorisniciRepository extends PagingAndSortingRepository<Korisnic
     public Korisnici provjeriLogin(@Param("user") String user, @Param("pass") String pass);
 	
 	Korisnici findByUsername(String username);
+	
+	Korisnici findByEmail(String email);
 }

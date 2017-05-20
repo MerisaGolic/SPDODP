@@ -16,9 +16,9 @@ import ba.unsa.etf.Pacijenti;
 public interface DijagnozePacijentiClient {
 	@RequestMapping(method=RequestMethod.POST, value = "/unosPacijenta")
 	 @ResponseBody
-	 public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Authorization") String token);
+	 public Pacijenti unosPacijenta (@RequestBody Pacijenti req, @RequestHeader(value="Cookie") String cookie);
 	
 	 @RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
 		@ResponseBody
-		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Authorization") String token);
+		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Cookie") String cookie);
 }

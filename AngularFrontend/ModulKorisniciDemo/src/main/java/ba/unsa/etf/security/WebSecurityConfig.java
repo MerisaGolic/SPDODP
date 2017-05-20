@@ -29,6 +29,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    http.csrf().disable().authorizeRequests()
 	        .antMatchers("/").permitAll()
 	    .antMatchers(HttpMethod.POST, "/login").permitAll()
+	    .antMatchers(HttpMethod.POST, "/korisnik/resetPassword").permitAll()
+	    .antMatchers(HttpMethod.GET, "/korisnik/promjenaPassworda").permitAll()
+	    .antMatchers("/korisnik/updatePassword",
+                     "/korisnik/sacuvajPassword",
+                     "/updatePassword")
+	    .hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
 	    .anyRequest().authenticated()
 	    .and()
 	    // We filter the api/login requests
