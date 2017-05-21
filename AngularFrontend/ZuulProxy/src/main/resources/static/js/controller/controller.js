@@ -4,7 +4,7 @@ var app = angular.module('myApp');
 	//$httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
 //}]);
 
-app.controller('myController',['$scope','$http', function($scope, $http){
+app.controller('myController',['$window','$scope','$http', function($window, $scope, $http){
 	$scope.message = "";
 	$scope.posalji = function()
 	{
@@ -34,6 +34,7 @@ app.controller('myController',['$scope','$http', function($scope, $http){
 		       });
 		$scope.username='';
 		$scope.password='';
+		$window.location.href = '/dijagnoza.html';
 
 		
 	}
