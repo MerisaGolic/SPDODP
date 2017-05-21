@@ -67,6 +67,18 @@ public class Controller {
 		//return "uredu";
 	}
 	
+	@RequestMapping(value = "/dajSimptome", method = RequestMethod.GET)
+	public List<Simptomi> dajSimptome()
+	{
+		List<Simptomi> s = new ArrayList<Simptomi>();
+		for (Simptomi simptom : sr.findAll()) 
+		{
+			simptom.setDijagnozeSimptomis(null);
+			s.add(simptom);
+		}
+		return s;
+	}
+	
 	@RequestMapping(value = "/novaDijagnoza", method = RequestMethod.GET)
 	@ResponseBody
     public String m3(@RequestParam (value="simptomi", defaultValue="") String[] simptomi, 
