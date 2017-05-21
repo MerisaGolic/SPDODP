@@ -8,11 +8,8 @@ app.controller('loginController',['$window','$scope','$http', function($window, 
 		$http({
 			method:'POST',
 			url: '/modul-za-korisnike/login',
-			data: {
-				username: $scope.username,
-				password: $scope.password				
-			},
-			contentType: "application/json"
+			contentType: "application/json",
+			data: angular.toJson({username: $scope.username, password: $scope.password}, true)
 		
 		    //method: 'GET',
 		   // url: 'http://localhost:8081/provjeraLogina?username='+$scope.username+'&password='+$scope.password
@@ -22,8 +19,7 @@ app.controller('loginController',['$window','$scope','$http', function($window, 
 		       }, function(error) {
 		    	   console.log(error);
 		       });
-		$scope.username='';
-		$scope.password='';
+		
 		$window.location.href = '/dijagnoze';
 	};
 
