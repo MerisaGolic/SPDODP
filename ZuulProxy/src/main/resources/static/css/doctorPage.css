@@ -1,0 +1,9 @@
+.podaci {
+	display: block;
+	float: left;
+}
+
+.slika {
+	display: block;
+	float: right;
+}
