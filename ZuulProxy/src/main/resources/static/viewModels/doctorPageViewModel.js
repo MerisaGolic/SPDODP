@@ -1,15 +1,30 @@
 function doctorPageViewModel() {
 	var self = this;
+	self.id_doktora = ko.observable();
 	self.pacijenti = ko.observableArray([]);	
 	self.imePrezime = ko.observable("");
 	self.datumRodjenja = ko.observable("");
 	self.spol = ko.observable("");
 	self.proba = ko.observable("Mirnes");
 
+	self.dajIdLogovanogDoktora = function() {
+		var url = "modul-za-korisnike/dajIdLogovanogKorisnika";
+				
+				$.ajax(url, {
+					type: "get",
+					success: function(data, textStatus, request) { 
+						self.id_doktora = data;
+						self.sviPacijentiDoktora();
+					}
+				});
+	}
+	
+	self.dajIdLogovanogDoktora();
+
 	self.sviPacijentiDoktora = function() {
-		var id_doktora = sessionStorage.getItem('doktor'); // dobavljamo id doktora sa login stranice
 		
-		var url = "modul-za-korisnike/sviPacijentiDoktora?idKorisnika=" + id_doktora;
+		
+		var url = "modul-za-korisnike/sviPacijentiDoktora?idKorisnika=" + self.id_doktora;
 		
 		$.ajax(url, {
 			type: "get", contentType: "application/json",
@@ -31,8 +46,6 @@ function doctorPageViewModel() {
 		$.ajax(url, {
 			type: "get", contentType: "application/json",
 			success: function(data, textStatus, request) { 
-				alert(data);
-				
 			}
 		});
 	}
@@ -41,10 +54,17 @@ function doctorPageViewModel() {
 		if (self.imePrezime() == "" || self.datumRodjenja() == "" || self.spol() == "") {
 			alert("uneseite parametre");
 		}else {
+			self.pacijenti.push([self.datumRodjenja(), self.imePrezime(), self.spol()]);
 			$.ajax("/modul-za-korisnike/unosPacijenta", {
 				data: ko.toJSON({ imePrezime: self.imePrezime(), datumRodjenja: self.datumRodjenja(), spol:self.spol()}),
 				type: "post", contentType: "application/json",
-				success: function(data, textStatus, request) { self.imePrezime(""); self.datumRodjenja(""); self.spol(""); }
+				success: function(data, textStatus, request) 
+				{ 
+
+					self.imePrezime(""); 
+					self.datumRodjenja(""); 
+					self.spol(""); 
+				}
 			});
 
 		}
@@ -64,5 +84,4 @@ function doctorPageViewModel() {
 }
 
 var vm = new doctorPageViewModel();
-ko.applyBindings(vm);
-vm.sviPacijentiDoktora();  
+ko.applyBindings(vm);  

@@ -131,6 +131,15 @@ public class Controller {
 	 			
 	 }
 	
+	@RequestMapping("/dajIdLogovanogKorisnika")
+	public int dajIdLogovanogKorisnika()
+	{
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String korisnikUsername = auth.getName();
+		
+		return kr.findByUsername(korisnikUsername).getId();
+	}
+	
 	@RequestMapping("/provjeriPacijentaTest")
 	public Boolean provjeriPacijentaTest()
 	{
