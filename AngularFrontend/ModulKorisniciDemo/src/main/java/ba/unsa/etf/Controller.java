@@ -101,9 +101,12 @@ public class Controller {
 		k = kr.provjeriLogin(username, password);
 		if (k != null){
 			session.setAttribute("loggedInUser", k);
+			System.out.print("ok");
 			return "Succesfully loged in!";
 		}else
+			System.out.print("nok");
 			return "False username or password";
+		
 	}
 	
 	@RequestMapping(value = "/poveziKorisnikeIPacijente")

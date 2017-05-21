@@ -39,7 +39,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/provjeraLogina", method = RequestMethod.GET)
 	public String provjera(@RequestParam("username") String un, @RequestParam("password") String pw) {
-		//System.out.println(k.getPassword()+ " ajax " + k.getUsername());
+		
 		System.out.println(un + " "+ pw);
 		return "dijagnoza.html";
 	}

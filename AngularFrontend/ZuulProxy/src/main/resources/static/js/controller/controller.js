@@ -1,44 +1,17 @@
 var app = angular.module('myApp');
 
-//app.config(['$httpProvider', function ($httpProvider) {    
-	//$httpProvider.defaults.headers.post['Content-Type'] = 'application/json';
-//}]);
-
 app.controller('myController',['$window','$scope','$http', function($window, $scope, $http){
-	$scope.message = "";
-	$scope.posalji = function()
-	{
-		/*var data = {
-				username : $scope.username,
-				password : $scope.password
-		};
-		var data = '&un=' + $scope.username + '&pw=' + $scope.password;
-		$http.post('/provjeraLogina', data )
-		.success(function(data, status, headers, config) {
-			$scope.message = data;
-		})
-		.error(function(data, status, headers, config) {
-			alert( "failure message: " + JSON.stringify({data: data}));
-		});*/
-		$http({
-		    method: 'GET',
-		    url: 'http://localhost:8081/provjeraLogina?username='+$scope.username+'&password='+$scope.password
-		    //headers: {
-		      //  "Content-Type": "application/json"
-		//    }
-		}).then(function(result) {
-		    	console.log(result.data);
-		    	$scope.message = result;
-		       }, function(error) {
-		    	   console.log(error);
-		       });
-		$scope.username='';
-		$scope.password='';
-		$window.location.href = '/dijagnoza.html';
-
-		
-	}
 	
+
+	$scope.login = function()
+	{
+		$window.location.href = '/login';
+	};
+
+	$scope.dijagnoza = function()
+	{
+		$window.location.href = '/dijagnoze';
+	}
 
 }]);
 /*
