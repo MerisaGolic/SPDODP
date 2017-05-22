@@ -4,7 +4,7 @@ app.controller('loginController',['$window','$scope','$http', function($window, 
 	$scope.message = "";
 	$scope.posalji = function()
 	{
-		alert($scope.username + " " + $scope.password);
+		//alert($scope.username + " " + $scope.password);
 		$http({
 			method:'POST',
 			url: '/modul-za-korisnike/login',
@@ -13,14 +13,16 @@ app.controller('loginController',['$window','$scope','$http', function($window, 
 		
 		    //method: 'GET',
 		   // url: 'http://localhost:8081/provjeraLogina?username='+$scope.username+'&password='+$scope.password
-		}).then(function(result) {
-		    	console.log(result.data);
-		    	$scope.message = result;
-		       }, function(error) {
+		}).success(function(data) {
+		    	console.log(data);
+		    	$scope.message = data;
+		    	$window.location.href = '/dijagnoze';
+		       }).error(function(error) {
 		    	   console.log(error);
+		    	   alert("Pogresan username i/ili password!");
 		       });
 		
-		$window.location.href = '/dijagnoze';
+		//$window.location.href = '/dijagnoze';
 	};
 
 }]);
