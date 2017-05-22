@@ -17,7 +17,7 @@ function kreirajDijagnozuViewModel() {
 			{
 				self.sviSimptomi.push(data[i].naziv);
 			}
-		});
+		}); 
 	};
 	
 	self.dajDijagnoze();

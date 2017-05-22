@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    .anyRequest().authenticated()
 	    .and()
 	    // And filter other requests to check the presence of JWT in header
-	        .addFilterBefore(new JWTAuthenticationFilter(),
+	    .addFilterBefore(new JWTAuthenticationFilter(),
 	                UsernamePasswordAuthenticationFilter.class);
 	  }
 	
