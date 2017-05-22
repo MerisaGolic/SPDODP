@@ -1,5 +1,6 @@
 package ba.unsa.etf;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -12,6 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,10 +196,16 @@ public class Controller {
 	}
 	
 	@RequestMapping(value = "/korisnik/promjenaPassworda", method = RequestMethod.GET)
-	public String promjenaPassworda(@RequestParam("id") int id, @RequestParam("token") String token)
+	public String promjenaPassworda(@RequestParam("id") int id, @RequestParam("token") String token, HttpServletResponse httpServletResponse)
 	{
 		prt = new PasswordResetTokenAuthenticationService();
-		return prt.validirajToken(token);
+		String poruka = prt.validirajToken(token);
+		try {
+			httpServletResponse.sendRedirect("http://localhost:8081/promijeniPasswordValidanToken.html");
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+		return poruka;
 	}
 	
 	@RequestMapping(value = "/korisnik/sacuvajPassword", method = RequestMethod.POST)
