@@ -5,7 +5,8 @@ function doctorPageViewModel() {
 	self.imePrezime = ko.observable("");
 	self.datumRodjenja = ko.observable("");
 	self.spol = ko.observable("");
-	self.proba = ko.observable("Mirnes");
+	self.imePacijenta = ko.observable("");
+	self.dijagnozePacijenta = ko.observableArray([]);
 
 	self.dajIdLogovanogDoktora = function() {
 		var url = "modul-za-korisnike/dajIdLogovanogKorisnika";
@@ -70,8 +71,33 @@ function doctorPageViewModel() {
 		}
 	}
 
-	self.informacijePacijent = function() {
-		
+	self.informacijePacijent = function(pac) {
+		self.imePacijenta(pac[1]);
+
+		$.ajax("modul-za-korisnike/dajIdPacijenta?imePrezime=" + self.imePacijenta(), {
+			type: "get", contentType: "application/json",
+			success: function(data, textStatus, request) { 
+				self.dijagnozePacijenta([]); // izbrisi sve iz niza
+				var url = "modul-dijagnoze-pacijenti/sveDijagnozePacijenta?idPacijenta=" + data;
+				
+				$.ajax(url, {
+					type: "get", contentType: "application/json",
+					success: function(data, textStatus, request) { 
+						var pom = {
+							"naziv" : "",
+							"opis" : ""
+						};
+						for (var i = 0; i < data.length; i++) {
+							pom.naziv = data[i][0];
+							pom.opis = data[i][1];
+							self.dijagnozePacijenta.push(pom);
+							
+						}
+					}
+				});
+			}
+		});
+
 	}
 
 	self.logout = function() {

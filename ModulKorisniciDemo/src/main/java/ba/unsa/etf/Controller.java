@@ -142,6 +142,13 @@ public class Controller {
 		return kr.findByUsername(korisnikUsername).getId();
 	}
 	
+	@RequestMapping("/dajIdPacijenta")
+	public int dajIdPacijenta(@RequestParam("imePrezime") String imePrezime)
+	{
+		
+		return pr.findIdByName(imePrezime);
+	}
+	
 	@RequestMapping("/provjeriPacijentaTest")
 	public Boolean provjeriPacijentaTest()
 	{
