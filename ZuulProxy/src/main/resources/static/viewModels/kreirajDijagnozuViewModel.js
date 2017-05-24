@@ -5,7 +5,8 @@ function kreirajDijagnozuViewModel() {
 	self.odabraniSimptomi = ko.observable(false);
 	self.pragFiltriranja = ko.observable();
 	self.moguceDijagnoze = ko.observableArray([]);
-	self.sviSimptomi = ko.observableArray()
+	self.sviSimptomi = ko.observableArray();
+	self.sviSimptomiNotEmpty = ko.observable(true);
 	
 	self.dajDijagnoze = function() {
 		// to d
@@ -23,14 +24,15 @@ function kreirajDijagnozuViewModel() {
 	self.dajDijagnoze();
 
 	self.dodajSimptomKorisnika = function() {
-		if (self.simptomKorisnika() != "" && self.simptomi().length<5) {
 			
 			self.simptomi.push(self.simptomKorisnika());
 			self.sviSimptomi.remove(self.simptomKorisnika());
 			self.simptomKorisnika("");
 			self.odabraniSimptomi(true);
+			if (self.sviSimptomi().length < 1) {
+				self.sviSimptomiNotEmpty(false);
+			}
 			self.postaviDijagnozu();
-		} else alert("Maksimalno 5 simptoma se može unijeti");
 	}
 
 	self.izbrisiSimptomKorisnika = function(simptom) {
@@ -39,6 +41,9 @@ function kreirajDijagnozuViewModel() {
 		self.postaviDijagnozu();
 		if (self.simptomi().length < 1) {
 			self.odabraniSimptomi(false);
+		}
+		if (!(self.sviSimptomi().length < 1)) {
+				self.sviSimptomiNotEmpty(true);
 		}
 	}
 
@@ -59,7 +64,7 @@ function kreirajDijagnozuViewModel() {
 					pom.naziv = data[i][0];
 					pom.opis = data[i][1];
 					pom.broj = data[i][2];
-					if (pom.broj >= self.pragFiltriranja()){
+					if (pom.broj >= Math.floor(self.pragFiltriranja()*self.simptomi().length/100)){
 						self.moguceDijagnoze.push(pom);
 					}
 				}

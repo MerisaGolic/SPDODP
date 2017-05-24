@@ -59,8 +59,7 @@
                 <label for="simptom">Simptomi</label>
                 <select class="form-control" data-bind='options: sviSimptomi, value: simptomKorisnika'></select>
               </div>
-              <a href="#" class="btn btn-primary" role="button" data-bind="click: dodajSimptomKorisnika">Dodaj simptom</a>
-              
+              <button class="btn btn-primary" role="button" data-bind="enable: sviSimptomiNotEmpty, click: dodajSimptomKorisnika">Dodaj simptom</button>
               <br><br>
               <div data-bind="visible: odabraniSimptomi">
                 <h2 class="simptomiH1-2">Odabrani simptomi:</h2><br>
@@ -75,7 +74,7 @@
               <br><br>
               <h2 class="simptomiH1-2">Unesite prag postotka za prikaz dijagnoza</h2> 
               <div class="form-inline">
-                   <input class="form-control" id="postotak" name="postotak" min="0" max="100" type="number" value="0" data-bind="value: pragFiltriranja"/>
+                   <input class="form-control" id="postotak" name="postotak" min="0" max="100" type="number" value="0" data-bind="value: pragFiltriranja" data-toggle="tooltip" title="Vrijednost je u procentima (%)"/>
               </div> <br>
               <button type="button" id="postaviDijagnozuButton" class="btn btn-primary" data-bind="click: postaviDijagnozu">Postavi dijagnozu</button><br><br>
             </form>
