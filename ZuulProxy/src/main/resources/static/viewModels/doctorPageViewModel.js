@@ -1,7 +1,9 @@
 function doctorPageViewModel() {
 	var self = this;
 	self.id_doktora = ko.observable();
-	self.pacijenti = ko.observableArray([]);	
+	self.pacijenti = ko.observableArray([]);
+	self.listaPacijenata = ko.observableArray();
+	self.sviPacijenti = ko.observableArray([]);
 	self.imePrezime = ko.observable("");
 	self.datumRodjenja = ko.observable("");
 	self.spol = ko.observable("");
@@ -15,7 +17,7 @@ function doctorPageViewModel() {
 					type: "get",
 					success: function(data, textStatus, request) { 
 						self.id_doktora = data;
-						self.sviPacijentiDoktora();
+						self.sviPacijentiDoktora();	
 					}
 				});
 	}
@@ -33,15 +35,46 @@ function doctorPageViewModel() {
 				for (var i = 0; i < data.length; i++) {
 					
 					self.pacijenti.push(data[i]);
-										
+					self.sviPacijenti.push(data[i]);					
 				}
+				for (var i = 0; i < self.pacijenti().length; i++)
+				{
+					self.listaPacijenata.push(self.pacijenti()[i][1]);
+				}
+				$('#imePrezime').autocomplete({
+					minLength: 0,
+					source: self.listaPacijenata(),
+					search: function(event, ui)
+					{
+						if(ui.item == null)
+						{
+							self.pacijenti(self.sviPacijenti().slice(0));
+						}
+					},
+					select: function(event, ui) 
+					{
+						self.pacijenti(self.sviPacijenti().slice(0));
+						if(ui.item !== null)
+						{
+							for(var i = 0; i < self.pacijenti().length; i++)
+							{
+								if(ui.item.label != self.sviPacijenti()[i][1])
+								{
+									self.pacijenti.remove(self.pacijenti()[i]);
+								}
+							}
+						}
+						
+					}
+				});
 			}
 		});
 	}
 
 	self.brisanjePacijenta = function(pac) {
-		
+		self.listaPacijenata.remove(pac[1]);
 		self.pacijenti.remove(this);
+		self.sviPacijenti.remove(this);
 		var url = "modul-za-korisnike/brisanjePacijentaPoImenuIPrezimenu?imePrezime="+ pac[1];
 		
 		$.ajax(url, {
@@ -56,6 +89,8 @@ function doctorPageViewModel() {
 			alert("uneseite parametre");
 		}else {
 			self.pacijenti.push([self.datumRodjenja(), self.imePrezime(), self.spol()]);
+			self.sviPacijenti.push([self.datumRodjenja(), self.imePrezime(), self.spol()]);
+			self.listaPacijenata.push(self.imePrezime());
 			$.ajax("/modul-za-korisnike/unosPacijenta", {
 				data: ko.toJSON({ imePrezime: self.imePrezime(), datumRodjenja: self.datumRodjenja(), spol:self.spol()}),
 				type: "post", contentType: "application/json",
