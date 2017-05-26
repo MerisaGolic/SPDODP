@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.8/angular-filter.js"></script>
+    
+   
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="css\dijagnoza.css" >
@@ -58,17 +61,22 @@
             <form class="form-inline">
               <div class="form-group">
                 <label for="simptom">Simptomi</label>
-                <select class="form-control" data-ng-bind='options: sviSimptomi, value: simptomKorisnika'></select>
+                <select class="form-control" data-ng-model="izabraniSimptom">
+                	<option disabled selected value> Izbor simptoma: </option>
+                	<option data-ng-repeat="simptom in sviSimptomi" value="{{simptom.naziv}}">{{simptom.naziv}} </option>
+                </select>
               </div>
-              <a href="#" class="btn btn-primary" role="button" data-ng-click="dodajSimptomKorisnika()">Dodaj simptom</a>
+              
+              <button class="btn btn-primary" data-ng-click="dodajSimptom()" data-ng-disabled="{{dodajSimptomDisabled}}">Dodaj simptom</button>
               
               <br><br>
-              <div data-bind="visible: odabraniSimptomi">
+              <div data-ng-show="{'visibility': odabraniSimptomi?'visible':'hidden'}">
                 <h2 class="simptomiH1-2">Odabrani simptomi:</h2><br>
                 <div> <!-- Ovo će biti kreirano dinamički koristeći KnockOut data-binding. -->
-                      <ul class="list-group" data-bind="foreach: simptomi">
-                        <li class="list-group-item" style="min-height: 50px;">
-                          <span data-bind="text: $data"></span>  <a href="#" class="btn btn-danger" role="button" data-bind="click: $parent.izbrisiSimptomKorisnika">Izbriši</a>
+                      <ul class="list-group" data-ng-model="simptomZaBrisanje">
+                        <li class="list-group-item" data-ng-repeat="simptom in simptomi" style="min-height: 50px;">
+                          {{simptom}}
+                          <button class="btn btn-danger" data-ng-click="$parent.izbrisiSimptom(simptom)">Izbriši</a>
                         </li>
                       </ul>     
                 </div>
@@ -76,9 +84,9 @@
               <br><br>
               <h2 class="simptomiH1-2">Unesite prag postotka za prikaz dijagnoza</h2> 
               <div class="form-inline">
-                   <input class="form-control" id="postotak" name="postotak" min="0" max="100" type="number" value="0" data-bind="value: pragFiltriranja"/>
+                   <input class="form-control" id="postotak" name="postotak" min="0" max="100" type="number" data-ng-model="postotak"/>
               </div> <br>
-              <button type="button" id="postaviDijagnozuButton" class="btn btn-primary" data-bind="click: postaviDijagnozu">Postavi dijagnozu</button><br><br>
+              <button id="postaviDijagnozuButton" class="btn btn-primary" data-ng-click="postaviDijagnozu()">Postavi dijagnozu</button><br><br>
             </form>
 
                    
@@ -87,12 +95,13 @@
             <h1 class="simptomiH1-2">Moguće dijagnoze</h1>
             <table class="table" class="table-striped" >
 			    <thead>
-			        <tr><th>Naziv</th><th>Opis</th></tr>
+			        <tr><th>Naziv</th><th>Opis</th><th>Postotak</th></tr>
 			    </thead>
-			    <tbody data-bind="foreach: moguceDijagnoze">
-			        <tr>
-			            <td data-bind="text: $data.naziv"></td>
-			            <td data-bind="text: $data.opis"></td>
+			    <tbody>
+			        <tr data-ng-repeat="dijagnoza in dijagnoze track by $index">
+			            <td>{{dijagnoza.naziv}}</td>
+			            <td>{{dijagnoza.opis}}</td>
+			            <td>{{dijagnoza.postotak}}</td>
 			        </tr>
 			    </tbody>
 			</table>
