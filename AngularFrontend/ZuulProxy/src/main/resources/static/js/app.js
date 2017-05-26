@@ -1,4 +1,4 @@
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['ex.filters', 'ui', 'ui.filters']);
 
 
 

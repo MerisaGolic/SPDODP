@@ -14,14 +14,24 @@ import md.models.Dijagnoze;
 
 @RepositoryRestResource(collectionResourceRel = "dijagnoze", path = "dijagnoze")
 public interface DijagnozeRepository extends PagingAndSortingRepository<Dijagnoze, Integer>{
-	
-	 @Query("SELECT d.naziv, d.opis, count(sd.simptomi) "
+	//, count(sd.simptomi)
+	 @Query("SELECT d.id, d.naziv, d.opis, d.postotak " 
 	      + "FROM Dijagnoze d, Simptomi s, DijagnozeSimptomi sd "
-	      + "WHERE s.id = sd.simptomi and d.id = sd.dijagnoze AND s.naziv IN (:listaSimptoma) "
- 	      + "GROUP BY d.naziv, d.opis "
+	      + "WHERE s.id = sd.simptomi AND d.id = sd.dijagnoze AND s.naziv IN (:listaSimptoma) "
+ 	      + "GROUP BY d.id, d.naziv, d.opis, d.postotak "
  	      + "HAVING count(*) >= 1 ")
-	 public List<Dijagnoze> nadjiDijagnozePoSimptomima(@Param("listaSimptoma") ArrayList<String> listaSimptoma);
+	 public List<Object[]> nadjiDijagnozePoSimptomima(@Param("listaSimptoma") ArrayList<String> listaSimptoma);
 	    
 	 @Query("SELECT id FROM Dijagnoze WHERE naziv = :naziv ")
 	 public int vratiIdPremaNazivu(@Param("naziv") String naziv);
+	 
+	 @Query("SELECT COUNT(sd.simptomi) "
+	      + "FROM Dijagnoze d, Simptomi s, DijagnozeSimptomi sd "
+	      + "WHERE s.id = sd.simptomi AND d.id = sd.dijagnoze AND d.id = :id ")
+	 public int nadjiBrojSimptoma(@Param("id") Integer id);
+
+	 @Query("SELECT COUNT(sd.simptomi) "
+		  + "FROM Dijagnoze d, Simptomi s, DijagnozeSimptomi sd "
+	      + "WHERE s.id = sd.simptomi AND d.id = sd.dijagnoze AND d.id = :id AND s.naziv IN (:listaSimptoma) ")
+	 public int nadjiBrojPoklapajucihSimptoma(@Param("id") Integer id, @Param("listaSimptoma") ArrayList<String> listaSimptoma);
 }

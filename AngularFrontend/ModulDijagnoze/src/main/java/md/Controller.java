@@ -45,7 +45,30 @@ public class Controller {
 		String[] tokens = simptomi.split(delims);
 		ArrayList<String> listaSimptoma = new ArrayList<String>(Arrays.asList(tokens));
 		
-		List<Dijagnoze> listaDijagnoza = dr.nadjiDijagnozePoSimptomima(listaSimptoma); 
+		List<Object[]> listaDijagnoza1 = dr.nadjiDijagnozePoSimptomima(listaSimptoma); 
+		List<Dijagnoze> listaDijagnoza = new ArrayList<Dijagnoze>();
+		
+		for (int i = 0; i<listaDijagnoza1.size(); i++)
+		{
+			Dijagnoze d = new Dijagnoze();
+			d.setId((Integer)listaDijagnoza1.get(i)[0]);
+			d.setNaziv((String)listaDijagnoza1.get(i)[1]);
+			d.setOpis((String)listaDijagnoza1.get(i)[2]);
+			d.setPostotak((Integer)listaDijagnoza1.get(i)[3]);
+			listaDijagnoza.add(d);
+		}
+		
+		for (int i = 0; i<listaDijagnoza.size(); i++)
+		{
+			
+			int brojUkupnihSimptoma = dr.nadjiBrojSimptoma(listaDijagnoza.get(i).getId());
+
+			int brojPoklapajucihSimptoma = dr.nadjiBrojPoklapajucihSimptoma(listaDijagnoza.get(i).getId(), listaSimptoma);
+			
+			int postotak = (int)(100.0 * (brojPoklapajucihSimptoma/(double)brojUkupnihSimptoma));
+
+			listaDijagnoza.get(i).setPostotak(postotak);
+		}
 		
         return listaDijagnoza;
     }
@@ -114,6 +137,18 @@ public class Controller {
 	public Boolean provjeriDijagnozuTestParam(@RequestParam("id") Integer id)
 	{
 		return dc.provjeriDijagnozuTestParam(id);
+	}
+	
+	@RequestMapping(value = "/dajSimptome", method = RequestMethod.GET)
+	public List<Simptomi> dajSimptome()
+	{
+		List<Simptomi> s = new ArrayList<Simptomi>();
+		for (Simptomi simptom : sr.findAll()) 
+		{
+			simptom.setDijagnozeSimptomis(null);
+			s.add(simptom);
+		}
+		return s;
 	}
 
 }
