@@ -56,11 +56,12 @@ function doctorPageViewModel() {
 						self.pacijenti(self.sviPacijenti().slice(0));
 						if(ui.item !== null)
 						{
-							for(var i = 0; i < self.pacijenti().length; i++)
+							for(var i = 0; i < self.sviPacijenti().length; i++)
 							{
 								if(ui.item.label != self.sviPacijenti()[i][1])
 								{
-									self.pacijenti.remove(self.pacijenti()[i]);
+									self.pacijenti.remove(self.sviPacijenti()[i])
+									
 								}
 							}
 						}
