@@ -104,6 +104,9 @@ public class ControllerDijagnozePacijenti {
 		public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Cookie") String cookie) {
 			
 			int id = pRepo.findIdByName(imePrezime);
+			int id_dp = dpRepo.findIdByIdPacijenta(id);
+			System.out.println(id_dp);
+			dpRepo.delete(id_dp);
 			pRepo.delete(id);
 			return "User succesfully deleted!";
 		}
