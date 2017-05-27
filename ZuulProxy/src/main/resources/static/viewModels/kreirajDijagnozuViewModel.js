@@ -55,17 +55,12 @@ function kreirajDijagnozuViewModel() {
 		$.ajax(url, {
 			type: "get", contentType: "application/json",
 			success: function(data, textStatus, request) { 
-				var pom = {
-					"naziv" : "",
-					"opis" : "",
-					"broj" :  2
-				};
-				for (var i = 0; i < data.length; i++) {
-					pom.naziv = data[i][0];
-					pom.opis = data[i][1];
-					pom.broj = data[i][2];
-					if (pom.broj >= Math.floor(self.pragFiltriranja()*self.simptomi().length/100)){
-						self.moguceDijagnoze.push(pom);
+				self.moguceDijagnoze(data);
+				for (var i = self.moguceDijagnoze().length - 1; i >= 0 ; i--) 
+				{
+					if (self.moguceDijagnoze()[i].postotak < self.pragFiltriranja())
+					{
+						self.moguceDijagnoze.splice(i, 1);
 					}
 				}
 			}
