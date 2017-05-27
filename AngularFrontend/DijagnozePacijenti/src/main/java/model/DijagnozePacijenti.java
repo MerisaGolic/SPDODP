@@ -24,12 +24,12 @@ public class DijagnozePacijenti implements Serializable {
 
 	//bi-directional many-to-one association to Dijagnoze
 	@ManyToOne
-	@JoinColumn(name="id_dijagnoze")
+	@JoinColumn(name="id_dijagnoze", nullable=false)
 	private Dijagnoze dijagnoze;
 
 	//bi-directional many-to-one association to Pacijenti
 	@ManyToOne
-	@JoinColumn(name="id_pacijenta")
+	@JoinColumn(name="id_pacijenta", nullable=false)
 	private Pacijenti pacijenti;
 
 	public DijagnozePacijenti() {

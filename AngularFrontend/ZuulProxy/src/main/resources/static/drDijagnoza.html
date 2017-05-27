@@ -84,8 +84,8 @@
               <h2 class="simptomiH1-2">Unesite prag postotka za prikaz dijagnoza</h2> 
               <div class="form-inline">
                    <input class="form-control" id="postotak" name="postotak" min="0" max="100" type="number" data-ng-model="postotak"/>
-              </div> <br>
-              <button id="postaviDijagnozuButton" class="btn btn-primary" data-ng-click="postaviDijagnozu()">Postavi dijagnozu</button><br><br>
+              </div> <br/>
+              <button id="postaviDijagnozuButton" class="btn btn-primary" data-ng-click="postaviDijagnozu()">Postavi dijagnozu</button><br/><br/>
             </form>
 
                    
@@ -104,8 +104,24 @@
 			        </tr>
 			    </tbody>
 			</table>
-            
+			<BR/>
+			<select class ="form-control" data-ng-model="izabranaDijagnoza">
+        		<option disabled selected value> Izbor dijagnoze: </option>
+            	<option data-ng-repeat="dijagnoza in dijagnoze" value="{{dijagnoza.id}}">{{dijagnoza.naziv}} </option>
+       		</select>
+       		<BR/>
+			<select class ="form-control" data-ng-model="izabraniPacijent">
+        		<option disabled selected value> Izbor pacijenta: </option>
+            	<option data-ng-repeat="pacijent in pacijenti track by $index" value="{{pacijent.id}}">{{pacijent.imePrezime}}, {{pacijent.datumRodjenja}}, {{pacijent.spol}}</option>
+       		</select>
+       		
+       		<BR/>
+       		<button id="poveziDijagnozuiPacijentaButton" class="btn btn-primary" data-ng-click="povezi()">Dodijeli dijagnozu pacijentu</button>
+       		<br/><br/>
+       		{{message}}
         </div>  
+        
+        
       </div>
       </div>
     <hr>  
@@ -117,6 +133,6 @@
     </div> <!-- /container -->
 
   	<script src = "js/app.js"></script>
-	<script src = "js/controller/dijagnozaController.js"></script>
+	<script src = "js/controller/drDijagnozaController.js"></script>
   </body>
 </html>

@@ -4,6 +4,7 @@ app.controller('dijagnozaController',['$window','$scope','$http', function($wind
 	
 	$scope.sviSimptomi = [];
 	$scope.simptomi = [];
+	$scope.pacijenti = [];
 	$scope.izabraniSimptom = "";
 	
 	
@@ -20,6 +21,22 @@ app.controller('dijagnozaController',['$window','$scope','$http', function($wind
 		}).error(function(error){
 			console.log(error);
 			alert("Nisu dosli simptomi");
+		});
+	
+	var id_doktora = 0;
+	
+	$http({
+		method: 'GET',
+		url: "modul-za-korisnike/dajIdLogovanogKorisnika",
+		contentType: "application/json"
+		}).success(function(data){
+			
+			console.log(data);
+			id_doktora = data;
+			
+		}).error(function(error){
+			console.log(error);
+			alert("Nije nađen id doktora!");
 		});
 	
 	$scope.dodajSimptom = function(){
@@ -75,5 +92,29 @@ app.controller('dijagnozaController',['$window','$scope','$http', function($wind
 				alert("Nisu dosle dijagnoze");
 			});
 		
+		$http({
+			method: 'GET',
+			url: "modul-za-korisnike/sviPacijentiDoktora?idKorisnika=" + id_doktora,
+			contentType: "application/json"
+			}).success(function(data){
+				$scope.pacijenti = data;
+			}).error(function(error){
+				console.log(error);
+				alert("Nisu dosli pacijenti!");
+			});	
 	};
+	
+	$scope.povezi = function(){
+	
+		$http({
+			method: 'GET',
+			url: "modul-dijagnoze-pacijenti/poveziDijagnozuPacijenta?idPacijenta=" + $scope.izabraniPacijent +"&idDijagnoze=" + $scope.izabranaDijagnoza ,
+			contentType: "application/json"
+			}).success(function(data){
+				$scope.message = "Dijagnoza uspjesno dodana pacijentu!";
+			}).error(function(error){
+				console.log(error);
+				alert("Greska!");
+			});
+	}
 }]);

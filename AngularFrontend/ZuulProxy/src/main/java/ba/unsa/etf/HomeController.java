@@ -27,6 +27,12 @@ public class HomeController {
 		return "prijava.html";
 	}
 	
+	@RequestMapping(value = "/promijeniPassword", method = RequestMethod.GET)
+	public String promjenaPassworda() {
+		
+		return "promjenaPassworda.html";
+	}
+	
 	@RequestMapping(value = "/logout", method=RequestMethod.GET)
 	@ResponseBody
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
@@ -53,7 +59,11 @@ public class HomeController {
 	@RequestMapping(value = "/dijagnoze", method = RequestMethod.GET)
 	public String error() {
 		
-		
 		return "dijagnoza.html";
+	}
+	@RequestMapping(value = "/drDijagnoze", method = RequestMethod.GET)
+	public String logovani() {
+		
+		return "drDijagnoza.html";
 	}
 }

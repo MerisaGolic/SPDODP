@@ -1,22 +1,23 @@
 package ba.unsa.etf;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -37,7 +38,7 @@ import org.springframework.stereotype.Component;
 import ba.unsa.etf.Pacijenti;
 import ba.unsa.etf.PacijentiRepository;
 import ba.unsa.etf.security.PasswordResetTokenAuthenticationService;
-import ba.unsa.etf.security.TokenAuthenticationService;
+
 
 @Component
 @RestController
@@ -124,15 +125,40 @@ public class Controller {
 		p.addPacijentiKorisnici(pk);
 	}
 	
-	@RequestMapping("/sviPacijentiDoktora")
-	 public List<Pacijenti> vratiPacijenteNavedenogDoktora(@RequestParam(value="idKorisnika", defaultValue="0") int idKorisnika)
+	@RequestMapping(value="/sviPacijentiDoktora", method = RequestMethod.GET)
+	 public List<Pacijenti> vratiPacijenteNavedenogDoktora(@RequestParam(value="idKorisnika") int idKorisnika)
 	 {
 	 	
-	 	List<Pacijenti> pacijentiDoktora = pr.vratiPacijente(idKorisnika);
+	 	List<Object[]> pacijentiDoktora1 =  pr.vratiPacijente(idKorisnika);
+	 	List<Pacijenti> pacijentiDoktora = new ArrayList<Pacijenti>();
+	 	for(int i=0; i<pacijentiDoktora1.size();i++)
+	 	{
+	 		Pacijenti p = new Pacijenti();
+	 		p.setId((Integer)pacijentiDoktora1.get(i)[0]);
+	 		p.setImePrezime((String)pacijentiDoktora1.get(i)[1]);
+	 		p.setDatumRodjenja((Date)pacijentiDoktora1.get(i)[2]);
+	 		p.setSpol((String)pacijentiDoktora1.get(i)[3]);
+	 		
+	 		pacijentiDoktora.add(p);
+	 	}
 	 	
 	 	return pacijentiDoktora;
 	 			
 	 }
+	@RequestMapping("/dajIdLogovanogKorisnika")
+	public int dajIdLogovanogKorisnika()
+	{
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String korisnikUsername = auth.getName();
+		
+		return kr.findByUsername(korisnikUsername).getId();
+	}
+	@RequestMapping("/dajIdPacijenta")
+	public int dajIdPacijenta(@RequestParam("imePrezime") String imePrezime)
+	{
+		
+		return pr.findIdByName(imePrezime);
+	}
 	
 	@RequestMapping("/provjeriPacijentaTest")
 	public Boolean provjeriPacijentaTest()
@@ -168,12 +194,14 @@ public class Controller {
 	
 	@RequestMapping(value = "/korisnik/resetPassword", method = RequestMethod.POST)
 	@ResponseBody
-	public String resetPassword(HttpServletRequest request, @RequestParam String email) 
+	public void resetPassword(HttpServletRequest request, @RequestParam String email) 
 	{
 		prt = new PasswordResetTokenAuthenticationService();
 		Korisnici k = kr.findByEmail(email);
 		String token = prt.kreirajToken(k.getUsername());
+		
 		MimeMessage mail = javaMailSender.createMimeMessage();
+
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
             helper.setTo(email);
@@ -184,19 +212,24 @@ public class Controller {
             e.printStackTrace();
         } finally {}
         javaMailSender.send(mail);
-		return "ok";
 	}
 	
 	@RequestMapping(value = "/korisnik/promjenaPassworda", method = RequestMethod.GET)
-	public String promjenaPassworda(@RequestParam("id") int id, @RequestParam("token") String token)
+	public String promjenaPassworda(@RequestParam("id") int id, @RequestParam("token") String token, HttpServletResponse httpServletResponse)
 	{
 		prt = new PasswordResetTokenAuthenticationService();
-		return prt.validirajToken(token);
+		String poruka = prt.validirajToken(token);
+				try {
+					httpServletResponse.sendRedirect("http://localhost:8081/promijeniPasswordValidanToken.html");
+				} catch(IOException e) {
+					e.printStackTrace();
+				}
+				return poruka;
 	}
 	
 	@RequestMapping(value = "/korisnik/sacuvajPassword", method = RequestMethod.POST)
 	@ResponseBody
-	public String savePassword(@RequestBody String json) 
+	public void savePassword(@RequestBody String json) 
 	{
 	    String user = SecurityContextHolder.getContext().getAuthentication().getName();
 	    System.out.println(user); 
@@ -207,7 +240,6 @@ public class Controller {
 	    k.setPassword(password);
 	    k.setPromjenaPassworda(new Timestamp(System.currentTimeMillis()));
 	    kr.save(k);
-	    return "Password promijenjen!";
 	}
 	
 	
