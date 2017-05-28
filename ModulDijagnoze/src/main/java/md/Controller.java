@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,18 +75,14 @@ public class Controller {
         return listaDijagnoza;
     }
 	
-	@RequestMapping(value = "/dodavanjeDijagnoze", method = RequestMethod.GET)
-    public String m2(@RequestParam (value="dijagnoza", defaultValue="") String dijagnoza, 
-    		         @RequestParam (value="opis", defaultValue="") String opis,
-    		         @RequestHeader(value="Authorization") String token) 
+	@RequestMapping(value = "/dodavanjeDijagnoze", method = RequestMethod.POST)
+    public String dodavanjeDijagnoze(@RequestBody Dijagnoze req, @CookieValue("Authorization") String cookie) 
 	{
 		Dijagnoze d = new Dijagnoze();
-		d.setNaziv(dijagnoza);
-		d.setOpis(opis);
-		dr.save(d);
-		String poruka = dc.proslijediDijagnozu1(dijagnoza, opis, token);
-		String poruka2 = lc.proslijediDijagnozu1(dijagnoza, opis, token);
-		
+		d = dr.save(req);
+		String novi = "Authorization=" + cookie;
+		String poruka = dc.proslijediDijagnozu1(req, novi);
+		String poruka2 = lc.proslijediDijagnozu1(req, novi);
 		
 		return poruka + " " + poruka2;
 		//return "uredu";
