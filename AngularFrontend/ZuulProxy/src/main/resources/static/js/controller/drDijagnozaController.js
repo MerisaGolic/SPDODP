@@ -132,4 +132,5 @@ app.controller('dijagnozaController',['$window','$scope','$http', function($wind
 		}
 
 	};
+	
 }]);

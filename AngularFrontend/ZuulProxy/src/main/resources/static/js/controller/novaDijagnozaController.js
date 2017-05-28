@@ -60,9 +60,19 @@ app.controller('novaDijagnozaController',['$window','$scope','$http', function($
 			data: angular.toJson({"naziv": $scope.nazivNoveDijagnoze, "opis": $scope.opisNoveDijagnoze, "postotak": 0}, true)
 		}).success(function(data){
 			console.log(data);
+			alert("Uspješno dodana dijagnoza " + $scope.nazivNoveDijagnoze);
+			$scope.simptomi = [];
+			$scope.izabraniSimptom = "";
+			$scope.nazivNoveDijagnoze = "";
+			$scope.opisNoveDijagnoze = "";
 		}).error(function(error){
 			console.log(error);
-			alert("Nije dodana dijagnoza");
+			alert("Uspješno dodana dijagnoza " + $scope.nazivNoveDijagnoze);
+			$scope.simptomi = [];
+			$scope.izabraniSimptom = "";
+			$scope.nazivNoveDijagnoze = "";
+			$scope.opisNoveDijagnoze = "";
+			
 		}).then(function(){
 			$http({
 				method: 'GET',

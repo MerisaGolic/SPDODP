@@ -40,7 +40,7 @@ CREATE TABLE `korisnici` (
 
 LOCK TABLES `korisnici` WRITE;
 /*!40000 ALTER TABLE `korisnici` DISABLE KEYS */;
-INSERT INTO `korisnici` VALUES (1,'anogo','anogo',NULL,NULL),(2,'mgolic','mgolic',NULL,NULL),(3,'mmujic','mmujic',NULL,NULL),(4,'ssuljic','ssuljic',NULL,NULL),(5,'user','pw',NULL,NULL);
+INSERT INTO `korisnici` VALUES (1,'anogo','anogo','2017-05-27 15:30:13','armin_nogo@hotmail.com'),(2,'mgolic','mgolic','2017-05-27 14:33:46','meryssa.c@gmail.com'),(3,'mmujic','mmujic',NULL,NULL),(4,'ssuljic','ssuljic',NULL,NULL),(5,'user','pw',NULL,NULL);
 /*!40000 ALTER TABLE `korisnici` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,4 +110,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-20 20:17:02
+-- Dump completed on 2017-05-28 19:24:55
