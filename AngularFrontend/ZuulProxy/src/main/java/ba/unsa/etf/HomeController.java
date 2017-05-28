@@ -10,60 +10,46 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class HomeController {
 	
-	@RequestMapping(value = "/")
+	@RequestMapping(value = "/") //treba
     public String index() {
         return "index.html";
     }
 	
-	@RequestMapping(value = "/izvrsiDijagnozu", method = RequestMethod.POST)
-	public String dijagnoza() {
-		
-		return "dijagnoza";
-	}
-	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET) //treba
 	public String login() {
 		
 		return "prijava.html";
 	}
 	
-	@RequestMapping(value = "/promijeniPassword", method = RequestMethod.GET)
+	@RequestMapping(value = "/promijeniPassword", method = RequestMethod.GET) //treba
 	public String promjenaPassworda() {
 		
 		return "promjenaPassworda.html";
 	}
 	
-	@RequestMapping(value = "/logout", method=RequestMethod.GET)
-	@ResponseBody
+	@RequestMapping(value = "/logout", method=RequestMethod.GET) //treba
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		Cookie cookie = new Cookie("Authorization", null);
 		cookie.setPath("/");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
-	    return "ok";
+	    return "index.html";
 	}
-	
-	@RequestMapping(value = "/provjeraLogina", method = RequestMethod.GET)
-	public String provjera(@RequestParam("username") String un, @RequestParam("password") String pw) {
 		
-		System.out.println(un + " "+ pw);
-		return "dijagnoza.html";
-	}
-	@RequestMapping(value = "/provjera", method = RequestMethod.POST)
-	public String provjeraa(@RequestBody Korisnik k ) {
-		System.out.println(k.getPassword()+ " submit " + k.getUsername());
+	@RequestMapping(value = "/dijagnoze", method = RequestMethod.GET) //treba
+	public String nelogovani() {
 		
 		return "dijagnoza.html";
 	}
-	
-	@RequestMapping(value = "/dijagnoze", method = RequestMethod.GET)
-	public String error() {
-		
-		return "dijagnoza.html";
-	}
-	@RequestMapping(value = "/drDijagnoze", method = RequestMethod.GET)
+	@RequestMapping(value = "/drDijagnoze", method = RequestMethod.GET) //treba
 	public String logovani() {
 		
 		return "drDijagnoza.html";
 	}
+	@RequestMapping(value = "/dodavanjeNoveDijagnoze", method = RequestMethod.GET) //treba
+	public String novaDijagnoza() {
+		
+		return "novaDijagnoza.html";
+	}
+	
 }

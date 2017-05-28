@@ -23,7 +23,7 @@ public interface DijagnozeRepository extends PagingAndSortingRepository<Dijagnoz
 	 public List<Object[]> nadjiDijagnozePoSimptomima(@Param("listaSimptoma") ArrayList<String> listaSimptoma);
 	    
 	 @Query("SELECT id FROM Dijagnoze WHERE naziv = :naziv ")
-	 public int vratiIdPremaNazivu(@Param("naziv") String naziv);
+	 public Integer vratiIdPremaNazivu(@Param("naziv") String naziv);
 	 
 	 @Query("SELECT COUNT(sd.simptomi) "
 	      + "FROM Dijagnoze d, Simptomi s, DijagnozeSimptomi sd "

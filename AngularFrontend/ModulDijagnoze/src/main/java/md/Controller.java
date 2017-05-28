@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,32 +75,31 @@ public class Controller {
         return listaDijagnoza;
     }
 	
-	@RequestMapping(value = "/dodavanjeDijagnoze", method = RequestMethod.GET)
-    public String m2(@RequestParam (value="dijagnoza", defaultValue="") String dijagnoza, 
-    		         @RequestParam (value="opis", defaultValue="") String opis,
-    		         @RequestHeader(value="Authorization") String token) 
+	@RequestMapping(value = "/dodavanjeDijagnoze", method = RequestMethod.POST)
+    public void m2(@RequestBody Dijagnoze req, @CookieValue("Authorization") String cookie) 
 	{
-		Dijagnoze d = new Dijagnoze();
-		d.setNaziv(dijagnoza);
-		d.setOpis(opis);
-		dr.save(d);
-		String poruka = dc.proslijediDijagnozu1(dijagnoza, opis, token);
-		String poruka2 = lc.proslijediDijagnozu1(dijagnoza, opis, token);
+		
+		dr.save(req);
+		String novi = "Authorization=" + cookie;
+		String poruka = dc.proslijediDijagnozu1(req, novi);
+		String poruka2 = lc.proslijediDijagnozu1(req, novi);
 		
 		
-		return poruka + " " + poruka2;
+		//return poruka + " " + poruka2;
 		//return "uredu";
 	}
 	
 	@RequestMapping(value = "/novaDijagnoza", method = RequestMethod.GET)
 	@ResponseBody
-    public String m3(@RequestParam (value="simptomi", defaultValue="") String[] simptomi, 
-    		         @RequestParam (value="dijagnoza", defaultValue="") String dijagnoza) 
+    public void m3(@RequestParam (value="simptomi", defaultValue="") String[] simptomi, 
+    		         @RequestParam (value="dijagnoza", defaultValue="") String dijagnoza,
+    		         @CookieValue("Authorization") String cookie) 
 	{
 		//String delims = "[,]";
 		//String[] tokens = simptomi.split(delims);
 		ArrayList<String> listaSimptoma = new ArrayList<String>(Arrays.asList(simptomi));	
-		
+		System.out.println("DIJAGNOZA = " + dijagnoza);
+		System.out.println("SIMPTOMI = " + simptomi);
 		Integer id1 = dr.vratiIdPremaNazivu(dijagnoza);
 		Dijagnoze nova = dr.findOne(id1);
 		
@@ -117,7 +118,7 @@ public class Controller {
 			smp.addDijagnozeSimptomi(ds);
 		}
 	
-		return "uspjesno dodana nova dijagnoza";
+		//return "uspjesno dodana nova dijagnoza";
 		
     }
 	
