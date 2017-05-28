@@ -75,17 +75,13 @@ public class ControllerDijagnozePacijenti {
 	 	return true;
 	 }
 	 
-	 @RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.GET)
+	 @RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.POST)
 	 @ResponseBody
-	 public String prijemDijagnoze1(@RequestParam(value="naziv") String naziv, @RequestParam(value="opis") String opis, @RequestHeader(value="Authorization") String token)
+	 public String prijemDijagnoze1(@RequestBody Dijagnoze req, @RequestHeader(value="Cookie") String token)
 	 {
 		 //ovdje insert
 		 Dijagnoze d = new Dijagnoze();
-		 d.setNaziv(naziv);
-		 d.setOpis(opis);
-		 d.setKoristi(0);
-		 d.setPostotak("");
-		 dRepo.save(d);
+		 d = dRepo.save(req);
 		 
 		 return "sve proslo - armin";
 	 }
