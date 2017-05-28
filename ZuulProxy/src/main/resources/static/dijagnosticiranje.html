@@ -81,7 +81,7 @@
                     <tr >
                         <td data-bind="text: $data.naziv"></td>
                         <td data-bind="text: $data.opis"></td>
-                        <td><input type="radio" name="odaberi" value="odaberi" data-bind="click: $parent.dobaviNazivOpisDijagnoze" />Odaberi</td>
+                        <td><input type="radio" name="odaberi" data-bind="value: $data.naziv" />Odaberi</td>
                     </tr>
                 </tbody>
             </table>

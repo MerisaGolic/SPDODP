@@ -69,6 +69,7 @@ function dijagnosticiranjeViewModel() {
 						self.dodavanjeOmoguceno(false);
 				for (var i = self.moguceDijagnoze().length - 1; i >= 0 ; i--) 
 				{
+					alert(self.moguceDijagnoze()[i].postotak)
 					if (self.moguceDijagnoze()[i].postotak < self.pragFiltriranja())
 					{
 						self.moguceDijagnoze.splice(i, 1);
@@ -87,11 +88,11 @@ function dijagnosticiranjeViewModel() {
 
 	self.dodajDijagnozuZaPacijenta = function() {
 
-		if (self.odabranaDijagnozaNaziv() =="") {
+		/*if (self.odabranaDijagnozaNaziv() =="") {
 			alert("Odaberite neku od dijagnoza ili unseite novu");
 			return null;
-		}
-
+		}*/
+		
 		var data = sessionStorage.getItem('imePacijenta');
 		
 		$.ajax("modul-za-korisnike/dajIdPacijenta?imePrezime=" + data, {
@@ -100,7 +101,7 @@ function dijagnosticiranjeViewModel() {
 
 				self.idPacijenta(data);
 
-				$.ajax("modul-dijagnoze-pacijenti/dajIdDijagnoze?nazivDijagnoze=" + self.odabranaDijagnozaNaziv(), {
+				$.ajax("modul-dijagnoze-pacijenti/dajIdDijagnoze?nazivDijagnoze=" + $('input[name=odaberi]:checked').val(), {
 					type: "get", contentType: "application/json",
 					success: function(data, textStatus, request) { 
 
