@@ -143,6 +143,12 @@ function doctorPageViewModel() {
 		});
 	};
 
+	self.dodajDijagnozu = function(pac) {
+		self.imePacijenta(pac[1]);
+		sessionStorage.setItem('imePacijenta',self.imePacijenta());
+		window.location = "dijagnosticiranje.html";
+	}
+
 }
 
 var vm = new doctorPageViewModel();

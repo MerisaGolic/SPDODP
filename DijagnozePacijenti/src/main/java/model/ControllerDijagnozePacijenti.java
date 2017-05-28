@@ -41,6 +41,11 @@ public class ControllerDijagnozePacijenti {
 	 	d.addDijagnozePacijenti(dp);
 	 }
 	 
+	 @RequestMapping("/dajIdDijagnoze")
+	 public int dajIdDijagnoze(@RequestParam("nazivDijagnoze") String nazivDijagnoze) {
+		 return dRepo.vratiIdDijagnoze(nazivDijagnoze);
+	 }
+	 
 	 @RequestMapping("/sveDijagnozePacijenta")
 	 public List<Dijagnoze> vratiDijagnozePacijenta(@RequestParam(value="idPacijenta", defaultValue="0") int idPacijenta)
 	 {

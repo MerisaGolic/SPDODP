@@ -15,4 +15,9 @@ public interface DijagnozeRepository extends PagingAndSortingRepository<Dijagnoz
 		+	"FROM Dijagnoze d, Pacijenti p, DijagnozePacijenti dp "
 		+	"WHERE d.id = dp.dijagnoze AND p.id = dp.pacijenti AND p.id = :idPacijenta")
 	public List<Dijagnoze> vratiDijagnoze(@Param("idPacijenta") int idPacijenta);
+	
+	@Query( "SELECT d.id "
+			+	"FROM Dijagnoze d "
+			+	"WHERE d.naziv = :nazivDijagnoze")
+		public int vratiIdDijagnoze(@Param("nazivDijagnoze") String nazivDijagnoze);
 }
