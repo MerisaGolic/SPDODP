@@ -1,6 +1,7 @@
 package ba.unsa.etf;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -83,19 +84,13 @@ public class LijekoviController {
 	}
 	
 	
-	@RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.GET)
+	@RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.POST)
 	@ResponseBody
-	public String prijemDijagnoze1(@RequestParam(value="naziv") String naziv, @RequestParam(value="opis") String opis, @RequestHeader(value="Authorization") String token)
+	public String prijemDijagnoze1(@RequestBody Dijagnoze req, @RequestHeader(value="Cookie") String token)
 	{
-		//ovdje insert
-		Dijagnoze d = new Dijagnoze();
-		d.setNaziv(naziv);
-		d.setOpis(opis);
-		d.setKoristi(0);
-		d.setPostotak(0);
-		dr.save(d);
+		dr.save(req);
+	 
 		return "sve proslo - adi";
-	}
-	
+	 }
 
 }

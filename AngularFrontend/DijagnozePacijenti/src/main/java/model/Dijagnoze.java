@@ -17,8 +17,6 @@ public class Dijagnoze implements Serializable {
 	@Id
 	private int id;
 
-	private int koristi;
-
 	private String naziv;
 
 	private String opis;
@@ -38,14 +36,6 @@ public class Dijagnoze implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getKoristi() {
-		return this.koristi;
-	}
-
-	public void setKoristi(int koristi) {
-		this.koristi = koristi;
 	}
 
 	public String getNaziv() {

@@ -1,6 +1,7 @@
 package md;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,8 +21,8 @@ public interface DijagnozeClient {
 	@ResponseBody
 	public Boolean provjeriDijagnozuTestParam(@RequestParam(value="id")Integer id);
 	
-	@RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.GET)
+	@RequestMapping(value = "/prijemDijagnoze1", method = RequestMethod.POST)
 	@ResponseBody
-	public String proslijediDijagnozu1(@RequestParam(value="naziv") String naziv, @RequestParam(value="opis") String opis, @RequestHeader(value="Authorization") String token);
+	public String proslijediDijagnozu1(@RequestBody Dijagnoze req, @RequestHeader(value="Cookie") String cookie);
 	
 }
