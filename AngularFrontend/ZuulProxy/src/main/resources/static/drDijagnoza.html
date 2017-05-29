@@ -71,7 +71,7 @@
               <button class="btn btn-primary" data-ng-click="dodajSimptom()" >Dodaj simptom</button>
               
               <br><br>
-              <div data-ng-show="{'visibility': odabraniSimptomi?'visible':'hidden'}">
+              <div data-ng-show="prikazSimptoma"">
                 <h2 class="simptomiH1-2">Odabrani simptomi:</h2><br>
                 <div>
                       <ul class="list-group" data-ng-model="simptomZaBrisanje">
@@ -87,12 +87,12 @@
               <div class="form-inline">
                    <input class="form-control" id="postotak" name="postotak" min="0" max="100" type="number" data-ng-model="postotak"/>
               </div> <br/>
-              <button id="postaviDijagnozuButton" class="btn btn-primary" data-ng-click="postaviDijagnozu()">Postavi dijagnozu</button><br/><br/>
+              <button id="postaviDijagnozuButton" class="btn btn-primary" data-ng-click="postaviDijagnozu();prikazDijagnoza=false">Postavi dijagnozu</button><br/><br/>
             </form>
 
                    
         </div> 
-        <div class="col-md-6" data-ng-show="{'visibility': prikazDijagnoza?'visible':'hidden'}">
+        <div class="col-md-6" data-ng-show="prikazDijagnoza">
             <h1 class="simptomiH1-2">Moguće dijagnoze</h1>
             <table class="table" class="table-striped" >
 			    <thead>

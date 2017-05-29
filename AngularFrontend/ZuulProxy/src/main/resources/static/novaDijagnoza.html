@@ -33,6 +33,7 @@
           </button>
           <a class="navbar-brand" href="/">Symptom This</a>
           <a class="navbar-brand" href="/logout">Logout</a>
+          <a class="navbar-brand" href="/noviLijek">Unos novog lijeka</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -72,18 +73,26 @@
               </form>
               </div>
               
-              <div class="col-md-6">
-              <h1 class="simptomiH1-2">Unesite naziv i opis nove dijagnoze</h1>
-              <div class="form-inline">
-                   <input class="form-control" id="naziv" name="naziv" data-ng-model="nazivNoveDijagnoze" placeholder="Naziv nove dijagnoze"/>
-              </div>
-              <br>
-              <div class="form-inline">
-                   <textarea class="form-control" id="opis" name="opis" data-ng-model="opisNoveDijagnoze" placeholder="Opis nove dijagnoze">
-                   </textarea>
-              </div>
-              <br>
-               <button class="btn btn-primary" data-ng-click="unesiDijagnozu()" >Unesi dijagnozu</button>
+              <div class="col-md-6" data-ng-show="prikazUnosa">
+	              <h1 class="simptomiH1-2">Unesite naziv i opis nove dijagnoze</h1>
+    	          <div class="form-inline">
+        	           <input class="form-control" id="naziv" name="naziv" data-ng-model="nazivNoveDijagnoze" placeholder="Naziv nove dijagnoze"/>
+            	  </div>
+ 	             <br>
+    	          <div class="form-inline">
+        	           <textarea class="form-control" id="opis" name="opis" data-ng-model="opisNoveDijagnoze" placeholder="Opis nove dijagnoze">
+            	       </textarea>
+        	      </div>
+            	  <br>
+	              <div class="form-group">
+    	            <label>Odaberite lijek za ovu dijagnozu</label>
+        	        <select class="form-control" data-ng-model="izabraniLijek">
+            	    	<option disabled selected value> Izbor lijeka: </option>
+                		<option data-ng-repeat="lijek in sviLijekovi" value="{{lijek.naziv}}">{{lijek.naziv}} </option>
+	                </select>
+    	          </div>
+        	      <br>
+            	   <button class="btn btn-primary" data-ng-click="unesiDijagnozu()" >Unesi dijagnozu</button>
               </div>
               
               <br><br>

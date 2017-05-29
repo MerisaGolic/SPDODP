@@ -5,7 +5,8 @@ app.controller('dijagnozaController',['$window','$scope','$http', function($wind
 	$scope.sviSimptomi = [];
 	$scope.simptomi = [];
 	$scope.izabraniSimptom = "";
-	
+	$scope.prikazSimptoma = false;
+	$scope.prikazDijagnoza = false;
 	
 	$http({
 		method: 'GET',
@@ -31,7 +32,7 @@ app.controller('dijagnozaController',['$window','$scope','$http', function($wind
 			var index = $scope.sviSimptomi.map(function(d) { return d["naziv"]; }).indexOf($scope.izabraniSimptom);
 			$scope.sviSimptomi.splice(index, 1);
 			$scope.izabraniSimptom = "";
-			$scope.odabraniSimptomi = true;
+			$scope.prikazSimptoma = true;
 			
 		} else alert("Morate prvo izabrati simptome!");
 	};
@@ -52,6 +53,7 @@ app.controller('dijagnozaController',['$window','$scope','$http', function($wind
 	$scope.postaviDijagnozu = function()
 	{
 		$scope.dijagnoze = [];
+		$scope.prikazDijagnoza = true;
 		
 		var url = "modul-dijagnoze/dijagnosticiranje?simptomi=" + $scope.simptomi.toString();
 		

@@ -5,7 +5,11 @@ app.controller('novaDijagnozaController',['$window','$scope','$http', function($
 	$scope.sviSimptomi = [];
 	$scope.simptomi = [];
 	$scope.pacijenti = [];
-	$scope.izabraniSimptom = "";	
+	$scope.izabraniSimptom = "";
+	$scope.sviLijekovi = [];
+	$scope.izabraniLijek = "";
+	$scope.prikazSimptoma = false;
+	$scope.prikazUnosa = false;
 
 	$http({
 		method: 'GET',
@@ -21,17 +25,35 @@ app.controller('novaDijagnozaController',['$window','$scope','$http', function($
 		console.log(error);
 		alert("Nisu dosli simptomi");
 	});
+	
+	$http({
+		method: 'GET',
+		url: 'modul-za-odredjivanje-terapije/dajLijekove'
+	}).success(function(data){
+		console.log(data);
+		for (var i = 0; i < data.length; i++) 
+		{
+			console.log({"naziv": data[i].naziv});
+			$scope.sviLijekovi.push({"naziv": data[i].naziv});
+		}
+
+	}).error(function(error){
+		console.log(error);
+		alert("Nisu dosli lijekovi");
+	});
 
 	$scope.dodajSimptom = function(){
 
 		if ($scope.izabraniSimptom != "") {
 
+			$scope.prikazSimptoma = true;
 			$scope.simptomi.push($scope.izabraniSimptom);
 
 			var index = $scope.sviSimptomi.map(function(d) { return d["naziv"]; }).indexOf($scope.izabraniSimptom);
 			$scope.sviSimptomi.splice(index, 1);
 			$scope.izabraniSimptom = "";
 			$scope.odabraniSimptomi = true;
+			$scope.prikazUnosa = true;
 
 		} else alert("Morate prvo izabrati simptome!");
 	};
@@ -61,17 +83,9 @@ app.controller('novaDijagnozaController',['$window','$scope','$http', function($
 		}).success(function(data){
 			console.log(data);
 			alert("Uspješno dodana dijagnoza " + $scope.nazivNoveDijagnoze);
-			$scope.simptomi = [];
-			$scope.izabraniSimptom = "";
-			$scope.nazivNoveDijagnoze = "";
-			$scope.opisNoveDijagnoze = "";
 		}).error(function(error){
 			console.log(error);
 			alert("Uspješno dodana dijagnoza " + $scope.nazivNoveDijagnoze);
-			$scope.simptomi = [];
-			$scope.izabraniSimptom = "";
-			$scope.nazivNoveDijagnoze = "";
-			$scope.opisNoveDijagnoze = "";
 			
 		}).then(function(){
 			$http({
@@ -83,11 +97,26 @@ app.controller('novaDijagnozaController',['$window','$scope','$http', function($
 			}).error(function(error){
 				console.log(error);
 				alert("Nije dodana veza dijagnoza-simptomi");
-			});			
-
+			});		
+			
+			$http({
+				method: 'GET',
+				url: 'modul-za-odredjivanje-terapije/poveziDijagnozeILijekove?nazivLijeka='+$scope.izabraniLijek+'&nazivDijagnoze='+$scope.nazivNoveDijagnoze,
+				contentType: "application/json"
+			}).success(function(data){
+				console.log(data);
+			}).error(function(error){
+				console.log(error);
+				alert("Nije dodana veza dijagnoza-lijek");
+			});	
+			
+			$scope.simptomi = [];
+			$scope.izabraniSimptom = "";
+			$scope.nazivNoveDijagnoze = "";
+			$scope.opisNoveDijagnoze = "";
+			$scope.izabraniLijek = "";
 		});
-
-
+		
 
 	}
 

@@ -69,7 +69,7 @@
               <button class="btn btn-primary" data-ng-click="dodajSimptom()" data-ng-disabled="{{dodajSimptomDisabled}}">Dodaj simptom</button>
               
               <br><br>
-              <div data-ng-show="{'visibility': odabraniSimptomi?'visible':'hidden'}">
+              <div data-ng-show="prikazSimptoma">
                 <h2 class="simptomiH1-2">Odabrani simptomi:</h2><br>
                 <div> <!-- Ovo će biti kreirano dinamički koristeći KnockOut data-binding. -->
                       <ul class="list-group" data-ng-model="simptomZaBrisanje">
@@ -90,7 +90,7 @@
 
                    
         </div> 
-        <div class="col-md-6">
+        <div class="col-md-6" data-ng-show="prikazDijagnoza">
             <h1 class="simptomiH1-2">Moguće dijagnoze</h1>
             <table class="table" class="table-striped" >
 			    <thead>

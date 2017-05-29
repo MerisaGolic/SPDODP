@@ -1,5 +1,8 @@
 package ba.unsa.etf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -34,8 +37,11 @@ public class LijekoviController {
 	private DijagnozeLijekoviRepository dlr;
 	
 	@RequestMapping("/poveziDijagnozeILijekove")
-	public void povezi(@RequestParam(value="idLijeka", defaultValue="World") int idLijeka, @RequestParam(value="idDijagnoze", defaultValue="World") int idDijagnoze)
+	public void povezi(@RequestParam(value="nazivLijeka", defaultValue="") String nazivLijeka, @RequestParam(value="nazivDijagnoze", defaultValue="") String nazivDijagnoze)
 	{
+		Integer idDijagnoze = dr.vratiIdPremaNazivu(nazivDijagnoze);
+		Integer idLijeka = lr.vratiIdPremaNazivu(nazivLijeka);
+		
 		Lijekovi l = lr.findOne(idLijeka);
 		Dijagnoze d = dr.findOne(idDijagnoze);
 		DijagnozeLijekovi dl = new DijagnozeLijekovi();
@@ -92,5 +98,17 @@ public class LijekoviController {
 	 
 		return "sve proslo - adi";
 	 }
+	
+	@RequestMapping(value = "/dajLijekove", method = RequestMethod.GET)
+	public List<Lijekovi> dajLijekove()
+	{
+		List<Lijekovi> l = new ArrayList<Lijekovi>();
+		for (Lijekovi lijek : lr.findAll()) 
+		{
+			l.add(lijek);
+			System.out.println(lijek.getNaziv() + "backend");
+		}
+		return l;
+	}
 
 }
