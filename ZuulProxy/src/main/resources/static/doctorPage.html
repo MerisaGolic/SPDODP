@@ -90,8 +90,10 @@
             <img src="/images/img_avatar2.png" class="w3-right w3-circle w3-margin-right" style="width:70px">
             <div class="col-md-8">
               <input type="text" class="w3-input w3-animate-input" style="width:50%" placeholder="Ime i prezime pacijenta" data-bind="value: imePrezime">
-              <input type="text" class="w3-input w3-animate-input" style="width:50%" placeholder="Datum rođenja" data-bind="value: datumRodjenja">
-              <input type="text" class="w3-input w3-animate-input" style="width:50%" placeholder="Spol" data-bind="value: spol">
+              <input type="text" id="datepicker" class="w3-input w3-animate-input" style="width:50%" placeholder="Datum rođenja" data-bind="value: datumRodjenja">
+              <h3 style="display:inline"><span class="label label-primary">Spol</span></h3>
+              <label class="radio-inline"><input type="radio" name="spol" value="M" data-bind="checked:spol">M</label>
+              <label class="radio-inline"><input type="radio" name="spol" value="Ž" data-bind="checked:spol">Ž</label>
             </div>
             <span>...........................................................................</span><br>
             <button class="btn btn-primary" data-bind="click: $root.unosPacijenta">Unesi pacijenta</button>

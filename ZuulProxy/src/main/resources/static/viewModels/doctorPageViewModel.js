@@ -9,6 +9,13 @@ function doctorPageViewModel() {
 	self.spol = ko.observable("");
 	self.imePacijenta = ko.observable("");
 	self.dijagnozePacijenta = ko.observableArray([]);
+	
+	$("#datepicker").datepicker({
+		dateFormat: "yy-mm-dd",
+		changeMonth: true,
+		changeYear: true,
+		yearRange: "c-100:c"
+	});
 
 	self.dajIdLogovanogDoktora = function() {
 		var url = "modul-za-korisnike/dajIdLogovanogKorisnika";

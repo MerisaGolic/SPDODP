@@ -69,7 +69,6 @@ function dijagnosticiranjeViewModel() {
 						self.dodavanjeOmoguceno(false);
 				for (var i = self.moguceDijagnoze().length - 1; i >= 0 ; i--) 
 				{
-					alert(self.moguceDijagnoze()[i].postotak)
 					if (self.moguceDijagnoze()[i].postotak < self.pragFiltriranja())
 					{
 						self.moguceDijagnoze.splice(i, 1);
