@@ -83,23 +83,15 @@ public class Controller {
 		String novi = "Authorization=" + cookie;
 		String poruka = dc.proslijediDijagnozu1(req, novi);
 		String poruka2 = lc.proslijediDijagnozu1(req, novi);
-		
-		
-		//return poruka + " " + poruka2;
-		//return "uredu";
+
 	}
 	
 	@RequestMapping(value = "/novaDijagnoza", method = RequestMethod.GET)
 	@ResponseBody
     public void m3(@RequestParam (value="simptomi", defaultValue="") String[] simptomi, 
-    		         @RequestParam (value="dijagnoza", defaultValue="") String dijagnoza,
-    		         @CookieValue("Authorization") String cookie) 
+    		       @RequestParam (value="dijagnoza", defaultValue="") String dijagnoza) 
 	{
-		//String delims = "[,]";
-		//String[] tokens = simptomi.split(delims);
 		ArrayList<String> listaSimptoma = new ArrayList<String>(Arrays.asList(simptomi));	
-		System.out.println("DIJAGNOZA = " + dijagnoza);
-		System.out.println("SIMPTOMI = " + simptomi);
 		Integer id1 = dr.vratiIdPremaNazivu(dijagnoza);
 		Dijagnoze nova = dr.findOne(id1);
 		
@@ -117,8 +109,7 @@ public class Controller {
 			nova.addDijagnozeSimptomi(ds);
 			smp.addDijagnozeSimptomi(ds);
 		}
-	
-		//return "uspjesno dodana nova dijagnoza";
+
 		
     }
 	
@@ -151,5 +142,12 @@ public class Controller {
 		}
 		return s;
 	}
+	
+	@RequestMapping(value="/dajIdDijagnoze", method = RequestMethod.GET)
+	public int dajID(@RequestParam("naziv") String naziv)
+	{
+		return dr.vratiIdPremaNazivu(naziv);
+	}
+	
 
 }

@@ -25,17 +25,13 @@ app.controller('novaDijagnozaController',['$window','$scope','$http', function($
 		console.log(error);
 		alert("Nisu dosli simptomi");
 	});
-	
+
 	$http({
 		method: 'GET',
 		url: 'modul-za-odredjivanje-terapije/dajLijekove'
 	}).success(function(data){
 		console.log(data);
-		for (var i = 0; i < data.length; i++) 
-		{
-			console.log({"naziv": data[i].naziv});
-			$scope.sviLijekovi.push({"naziv": data[i].naziv});
-		}
+		$scope.sviLijekovi = data;
 
 	}).error(function(error){
 		console.log(error);
@@ -86,7 +82,7 @@ app.controller('novaDijagnozaController',['$window','$scope','$http', function($
 		}).error(function(error){
 			console.log(error);
 			alert("Uspješno dodana dijagnoza " + $scope.nazivNoveDijagnoze);
-			
+
 		}).then(function(){
 			$http({
 				method: 'GET',
@@ -99,24 +95,43 @@ app.controller('novaDijagnozaController',['$window','$scope','$http', function($
 				alert("Nije dodana veza dijagnoza-simptomi");
 			});		
 			
+			var id = 0;
 			$http({
 				method: 'GET',
-				url: 'modul-za-odredjivanje-terapije/poveziDijagnozeILijekove?nazivLijeka='+$scope.izabraniLijek+'&nazivDijagnoze='+$scope.nazivNoveDijagnoze,
+				url: 'modul-dijagnoze/dajIdDijagnoze?naziv=' + $scope.nazivNoveDijagnoze,
 				contentType: "application/json"
 			}).success(function(data){
 				console.log(data);
+				id = data;
 			}).error(function(error){
 				console.log(error);
-				alert("Nije dodana veza dijagnoza-lijek");
-			});	
+				alert("Nije nadjen id dijagnoze");
+			}).then(function(data){
+				$http({
+					method: 'GET',
+					url: 'modul-za-odredjivanje-terapije/poveziDijagnozeILijekove?idLijeka='+$scope.izabraniLijek+'&idDijagnoze='+id,
+					contentType: "application/json"
+				}).success(function(data){
+					console.log(data);
+				}).error(function(error){
+					console.log(error);
+					alert("Nije dodana veza dijagnoza-lijek");
+				}).then(function(){
+					$scope.simptomi = [];
+					$scope.izabraniSimptom = "";
+					$scope.nazivNoveDijagnoze = "";
+					$scope.opisNoveDijagnoze = "";
+					$scope.izabraniLijek = "";
+				});
+				
+			});
 			
-			$scope.simptomi = [];
-			$scope.izabraniSimptom = "";
-			$scope.nazivNoveDijagnoze = "";
-			$scope.opisNoveDijagnoze = "";
-			$scope.izabraniLijek = "";
+			
+			
+
+
 		});
-		
+
 
 	}
 

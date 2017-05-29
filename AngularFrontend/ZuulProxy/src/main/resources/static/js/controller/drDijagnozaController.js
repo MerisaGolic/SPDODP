@@ -7,6 +7,7 @@ app.controller('dijagnozaController',['$window','$scope','$http', function($wind
 	$scope.pacijenti = [];
 	$scope.izabraniSimptom = "";
 	$scope.prikazDijagnoza = false;
+	$scope.odabraniSimptomi = false;
 
 	$http({
 		method: 'GET',

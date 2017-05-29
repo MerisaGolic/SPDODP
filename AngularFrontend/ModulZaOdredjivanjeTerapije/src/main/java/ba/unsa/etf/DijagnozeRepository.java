@@ -8,8 +8,8 @@ import feign.Param;
 
 @RepositoryRestResource(collectionResourceRel = "dijagnoze", path = "dijagnoze")
 public interface DijagnozeRepository extends PagingAndSortingRepository<Dijagnoze, Integer> {
-	
-	@Query("SELECT id FROM Dijagnoze WHERE naziv = :naziv ")
-	 public int vratiIdPremaNazivu(@Param("naziv") String naziv);
+		
+	@Query("SELECT id FROM Dijagnoze WHERE LOWER(naziv) = LOWER(:naziv) ")
+	public int vratiIdPremaNazivu(@Param("naziv") String naziv);
 
 }

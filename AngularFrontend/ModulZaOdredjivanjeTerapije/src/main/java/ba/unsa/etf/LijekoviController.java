@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,18 +37,21 @@ public class LijekoviController {
 	@Autowired
 	private DijagnozeLijekoviRepository dlr;
 	
-	@RequestMapping("/poveziDijagnozeILijekove")
-	public void povezi(@RequestParam(value="nazivLijeka", defaultValue="") String nazivLijeka, @RequestParam(value="nazivDijagnoze", defaultValue="") String nazivDijagnoze)
+	@RequestMapping(value="/poveziDijagnozeILijekove", method =RequestMethod.GET)
+	@ResponseBody
+	public void povezi(@RequestParam(value="idLijeka", defaultValue="") int idLijeka, 
+			           @RequestParam(value="idDijagnoze", defaultValue="") int idDijagnoze)
 	{
-		Integer idDijagnoze = dr.vratiIdPremaNazivu(nazivDijagnoze);
-		Integer idLijeka = lr.vratiIdPremaNazivu(nazivLijeka);
-		
 		Lijekovi l = lr.findOne(idLijeka);
 		Dijagnoze d = dr.findOne(idDijagnoze);
 		DijagnozeLijekovi dl = new DijagnozeLijekovi();
 		dl.setDijagnoze(d);
 		dl.setLijekovi(l);
 		dl.setId(idLijeka, idDijagnoze);
+		dl.setEritrociti(0);
+		dl.setLeukociti(0);
+		dl.setSecer(0);
+		dl.setTrombociti(0);
 		dlr.save(dl);
 		l.addDijagnozeLijekovi(dl);
 		d.addDijagnozeLijekovi(dl);
@@ -105,8 +109,10 @@ public class LijekoviController {
 		List<Lijekovi> l = new ArrayList<Lijekovi>();
 		for (Lijekovi lijek : lr.findAll()) 
 		{
+			lijek.setDijagnozeLijekovis(null);
 			l.add(lijek);
-			System.out.println(lijek.getNaziv() + "backend");
+			
+			System.out.println(lijek.getId() + "backend");
 		}
 		return l;
 	}

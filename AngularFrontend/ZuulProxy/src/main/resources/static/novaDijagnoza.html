@@ -88,7 +88,7 @@
     	            <label>Odaberite lijek za ovu dijagnozu</label>
         	        <select class="form-control" data-ng-model="izabraniLijek">
             	    	<option disabled selected value> Izbor lijeka: </option>
-                		<option data-ng-repeat="lijek in sviLijekovi" value="{{lijek.naziv}}">{{lijek.naziv}} </option>
+                		<option data-ng-repeat="lijek in sviLijekovi" value="{{lijek.id}}">{{lijek.naziv}} </option>
 	                </select>
     	          </div>
         	      <br>
