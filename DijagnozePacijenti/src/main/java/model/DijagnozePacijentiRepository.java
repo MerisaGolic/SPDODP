@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 public interface DijagnozePacijentiRepository extends PagingAndSortingRepository<DijagnozePacijenti, Integer> {
 	
 	@Query("SELECT id FROM DijagnozePacijenti dp WHERE LOWER(dp.pacijenti) = LOWER(:id_pacijenta)")
-	public int findIdByIdPacijenta (@Param("id_pacijenta") int id_pacijenta);
+	public List<Integer> findIdByIdPacijenta (@Param("id_pacijenta") int id_pacijenta);
 	
 	
 }
