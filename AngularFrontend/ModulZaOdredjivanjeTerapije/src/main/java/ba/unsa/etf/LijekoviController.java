@@ -118,13 +118,11 @@ public class LijekoviController {
 	}
 	
 	@RequestMapping(value = "/unosLijeka", method = RequestMethod.POST)
-	public void unosLijeka(@RequestParam(value="nazivLijeka", defaultValue="lijek") String nazivLijeka, 
-						   @RequestParam(value="standardnaDoza", defaultValue="100") int standardnaDoza)
+	public void unosLijeka(@RequestBody Lijekovi l)
 	{
-		Lijekovi l = new Lijekovi();
-		l.setDijagnozeLijekovis(null);
-		l.setNaziv(nazivLijeka);
-		l.setStandardnaDoza(standardnaDoza);
+		System.out.println(l.getNaziv() + l.getStandardnaDoza());
+		
+		//l.setDijagnozeLijekovis(null);
 		
 		lr.save(l);
 	}
