@@ -51,5 +51,10 @@ public class HomeController {
 		
 		return "novaDijagnoza.html";
 	}
+	@RequestMapping(value = "/dodavanjeLijeka", method = RequestMethod.GET) //treba
+	public String noviLijek() {
+		
+		return "noviLijek.html";
+	}
 	
 }

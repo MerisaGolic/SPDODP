@@ -116,5 +116,17 @@ public class LijekoviController {
 		}
 		return l;
 	}
+	
+	@RequestMapping(value = "/unosLijeka", method = RequestMethod.POST)
+	public void unosLijeka(@RequestParam(value="nazivLijeka", defaultValue="lijek") String nazivLijeka, 
+						   @RequestParam(value="standardnaDoza", defaultValue="100") int standardnaDoza)
+	{
+		Lijekovi l = new Lijekovi();
+		l.setDijagnozeLijekovis(null);
+		l.setNaziv(nazivLijeka);
+		l.setStandardnaDoza(standardnaDoza);
+		
+		lr.save(l);
+	}
 
 }
