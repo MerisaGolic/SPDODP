@@ -15,6 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/kreirajDijagnozu.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
 
   <body>
@@ -39,40 +40,38 @@
     </nav>
 
     <div class="container">
+      <div class="row">
+        <!-- prva kartica-->
+        <div class="w3-card-4 w3-left w3-margin-right w3-margin-top" style="width:45%;">
+          <header class="w3-container w3-black">
+            <h1 class="w3-center"><span class="w3-badge w3-white w3-left w3-margin-right">1</span> Odabir simptoma</h1>
+          </header>
 
-    <div class="row" class="img-responsive" class="center-block">
-      <div class="row">    
-        <div class="col-md-6">
-            <h1 class="simptomiH1-2">Izbor simptoma</h1><br>
-            <form class="form-inline">
-              <div class="form-group">
-                <label for="simptom">Simptomi</label>
-                <select class="form-control" data-bind='options: sviSimptomi, value: simptomKorisnika'></select>
-              </div>
-              <button class="btn btn-primary" role="button" data-bind="enable: sviSimptomiNotEmpty, click: dodajSimptomKorisnika">Dodaj simptom</button>
-              <br><br>
-              <div data-bind="visible: odabraniSimptomi">
-                <h2 class="simptomiH1-2">Odabrani simptomi:</h2><br>
-                <div> <!-- Ovo će biti kreirano dinamički koristeći KnockOut data-binding. -->
-                      <ul class="list-group" data-bind="foreach: simptomi">
-                        <li class="list-group-item" style="min-height: 50px;">
-                          <span data-bind="text: $data"></span>  <a href="#" class="btn btn-danger" role="button" data-bind="click: $parent.izbrisiSimptomKorisnika">Izbriši</a>
-                        </li>
-                      </ul>     
-                </div>
-              </div> 
-              <br><br>
-              <h2 class="simptomiH1-2">Unesite prag postotka za prikaz dijagnoza</h2> 
-              <div class="form-inline">
-                   <input class="form-control" id="postotak" name="postotak" min="0" max="100" type="number" value="0" data-bind="value: pragFiltriranja" data-toggle="tooltip" title="Vrijednost je u procentima (%)"/>
-              </div> <br>
-              <button type="button" id="postaviDijagnozuButton" class="btn btn-primary" data-bind="click: postaviDijagnozu">Postavi dijagnozu</button><br><br>
-            </form>
+          <div class="w3-container w3-padding">
+            <select class="w3-select" name="option" data-bind='options: sviSimptomi, value: simptomKorisnika'></select><br><br>
+            <ul class="list-group" data-bind="foreach: simptomi">
+                <li class="list-group-item" style="min-height: 50px;">
+                    <span data-bind="text: $data"></span>  <a href="#" class="btn btn-danger" role="button" data-bind="click: $parent.izbrisiSimptomKorisnika">Izbriši</a>
+                </li>
+            </ul> 
+            
+          </div>
 
-                   
-        </div> 
-        <div class="col-md-6">
-            <h1 class="simptomiH1-2">Moguće dijagnoze</h1>
+          <button class="btn btn-primary btn-block" role="button" data-bind="enable: sviSimptomiNotEmpty, click: dodajSimptomKorisnika">Dodaj simptom</button><br><br>
+
+          <div data-bind="visible: odabraniSimptomi">
+            <label class="w3-label">Prag u postocima</label>
+            <input class="w3-input w3-border" id="postotak" name="postotak" min="0" max="100" type="number" value="0" data-bind="value: pragFiltriranja" data-toggle="tooltip" title="Vrijednost je u procentima (%)" placeholder="0" /><br><br>
+            <button  id="postaviDijagnozuButton" class="btn btn-primary btn-block" data-bind="click: postaviDijagnozu">Postavi dijagnozu</button>
+          </div>
+        </div>
+        <!-- kartica dva -->
+        <div class="w3-card-4 w3-right w3-margin-top" style="width:50%;">
+          <header class="w3-container w3-black">
+            <h1 class="w3-center"><span class="w3-badge w3-white w3-left w3-margin-right">2</span>Moguće dijagnoze</h1>
+          </header>
+
+          <div class="w3-container w3-padding">
             <table class="table" class="table-striped" >
                 <thead>
                     <tr><th>Naziv</th><th>Opis</th></tr>
@@ -81,19 +80,15 @@
                     <tr >
                         <td data-bind="text: $data.naziv"></td>
                         <td data-bind="text: $data.opis"></td>
-                        <td><input type="radio" name="odaberi" data-bind="value: $data.naziv" />Odaberi</td>
+                        <td><input class="w3-radio" type="radio" name="odaberi" data-bind="value: $data.naziv" />Odaberi</td>
                     </tr>
                 </tbody>
             </table>
-            <div class="col-md-6">
-              <button class="btn btn-primary" data-bind="visible: dodavanjeOmoguceno, click: dodajDijagnozuZaPacijenta">Dodaj dijagnozu za pacijenta</button>
-            </div><br><br>
+          </div>
+          <button class="btn btn-primary btn-block" data-bind="visible: dodavanjeOmoguceno, click: dodajDijagnozuZaPacijenta">Dodaj dijagnozu za pacijenta</button>
+          <span data-bind="visible: odabraniSimptomi"><input class="w3-check w3-margin" type="checkbox" name="novaDijagnoza" data-bind="checked: unosNoveDijagnozeOmoguceno">Nijedna od ponuđenih</span>
 
-            <div class="col-md-6">
-              <span data-bind="visible: dodavanjeOmoguceno"><input type="checkbox" name="novaDijagnoza" data-bind="checked: unosNoveDijagnozeOmoguceno">Nijedna od ponuđenih</span>
-            </div><br><br>
-
-            <div class="col-md-6" data-bind="visible: unosNoveDijagnozeOmoguceno">
+            <div data-bind="visible: unosNoveDijagnozeOmoguceno">
               <form>
                 <div class="form-group">
                   <label for="formGroupExampleInput">Naziv dijagnoze</label>
@@ -104,15 +99,15 @@
                   <textarea type="text" class="form-control" id="formGroupExampleInput2" placeholder="Opis dijagnoze" data-bind="value: opisDijagnoze"></textarea>
                 </div>
                 <div>
-                  <button class="btn btn-primary" data-bind="click: dodajNovuDijagnozu">Dodaj novu dijagnozu</button>
+                  <button class="btn btn-primary btn-block" data-bind="click: dodajNovuDijagnozu">Dodaj novu dijagnozu</button>
                 </div>
               </form>
             </div>
-        </div>  
-      </div>
-      </div>
-    <hr>  
+        </div>
+      </div>  
+ 
     </div><!-- /.container -->
+
     <div class="container">  
       <footer>
         <p>&copy; 2016 Company, Inc.</p>
