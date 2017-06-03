@@ -1,6 +1,15 @@
 package ba.unsa.etf;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 
 @RestController
@@ -95,6 +105,45 @@ public class LijekoviController {
 		 
 		 return "sve proslo - adi";
 	 }
+	
+	@RequestMapping(value = "/dajLijekove", method = RequestMethod.GET)
+	public List<Lijekovi> dajLijekove()
+	{
+		List<Lijekovi> l = new ArrayList<Lijekovi>();
+		for (Lijekovi lijek : lr.findAll()) 
+		{
+			lijek.setDijagnozeLijekovis(null);
+			l.add(lijek);
+		}
+		return l;
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value = "/unosLijeka")
+	@ResponseBody
+	public Lijekovi unosLijeka (@RequestBody Lijekovi req){
+		Lijekovi l = new Lijekovi();
+		l = lr.save(req);
+		return l;
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value = "/dajNaziveLijekova")
+	@ResponseBody
+	public List<String> dajNaziveLijekova (@RequestParam(value="ideviDijagnoza") String ideviDijagnoza){
+		final Pattern pattern = Pattern.compile("\\d+"); // the regex
+		final Matcher matcher = pattern.matcher(ideviDijagnoza); // your string
+
+		final ArrayList<Integer> ints = new ArrayList<Integer>(); // results
+
+		while (matcher.find()) { // for each match
+		    ints.add(Integer.parseInt(matcher.group())); // convert to int
+		}
+		List<String> l = new ArrayList<String>();
+		for(int i = 0; i < ints.size(); i++)
+		{
+			l.add(lr.vratiNazivLijeka(ints.get(i)));
+		}
+		return l;
+	}
 	
 
 }

@@ -10,6 +10,8 @@ function doctorPageViewModel() {
 	self.imePacijenta = ko.observable("");
 	self.dijagnozePacijenta = ko.observableArray([]);
 	
+	self.nazivLijeka = ko.observable("");
+	
 	$("#datepicker").datepicker({
 		dateFormat: "yy-mm-dd",
 		changeMonth: true,
@@ -128,14 +130,42 @@ function doctorPageViewModel() {
 					success: function(data, textStatus, request) { 
 						var pom = {
 							"naziv" : "",
-							"opis" : ""
+							"opis" : "",
+							"terapija": "",
+							"standardnaDoza": ""
 						};
-						for (var i = 0; i < data.length; i++) {
-							pom.naziv = data[i][0];
-							pom.opis = data[i][1];
-							self.dijagnozePacijenta.push(pom);
-							
+						
+						ideviDijagnoza = data[0][2];
+						
+						for (var i = 1; i < data.length; i++) {
+							ideviDijagnoza += ",";
+							ideviDijagnoza += data[i][2];
 						}
+						
+						alert(ideviDijagnoza);
+						
+						var nazivi = [];
+						var opisi = [];
+						var terapije = [];
+						
+						for (var i = 0; i < data.length; i++) {
+							nazivi.push(data[i][0]);
+							opisi.push(data[i][1]);
+							terapije.push("nesto");
+						}
+						
+						$.ajax("/modul-za-odredjivanje-terapije/dajNaziveLijekova?ideviDijagnoza=" + ideviDijagnoza, {
+							type: "get", contentType: "application/json",
+							success: function(data, textStatus, request) { 
+								for(var i = 0; i < data.length; i++)
+								{
+									pom.naziv = nazivi[i];
+									pom.opis = opisi[i];
+									pom.terapija = data[i];
+									self.dijagnozePacijenta.push(pom);
+								}
+							}
+						});
 					}
 				});
 			}

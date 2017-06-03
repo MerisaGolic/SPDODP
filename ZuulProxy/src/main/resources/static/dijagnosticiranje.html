@@ -14,6 +14,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <link href="css/dijagnosticiranje.css" rel="stylesheet">
     <link href="css/kreirajDijagnozu.css" rel="stylesheet">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   </head>
@@ -30,6 +31,7 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="doctorPage.html">Back</a>
+          <a class="navbar-brand" href="noviLijek.html">Unos novog lijeka</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -48,7 +50,7 @@
           </header>
 
           <div class="w3-container w3-padding">
-            <select class="w3-select" name="option" data-bind='options: sviSimptomi, value: simptomKorisnika'></select><br><br>
+            <select class="w3-select" name="option" data-bind="options: sviSimptomi, value: simptomKorisnika"></select><br><br>
             <ul class="list-group" data-bind="foreach: simptomi">
                 <li class="list-group-item" style="min-height: 50px;">
                     <span data-bind="text: $data"></span>  <a href="#" class="btn btn-danger" role="button" data-bind="click: $parent.izbrisiSimptomKorisnika">Izbriši</a>
@@ -57,12 +59,12 @@
             
           </div>
 
-          <button class="btn btn-primary btn-block" role="button" data-bind="enable: sviSimptomiNotEmpty, click: dodajSimptomKorisnika">Dodaj simptom</button><br><br>
+          <button class="btn btn-primary btni" role="button" data-bind="enable: sviSimptomiNotEmpty, click: dodajSimptomKorisnika">Dodaj simptom</button><br><br>
 
           <div data-bind="visible: odabraniSimptomi">
             <label class="w3-label">Prag u postocima</label>
             <input class="w3-input w3-border" id="postotak" name="postotak" min="0" max="100" type="number" value="0" data-bind="value: pragFiltriranja" data-toggle="tooltip" title="Vrijednost je u procentima (%)" placeholder="0" /><br><br>
-            <button  id="postaviDijagnozuButton" class="btn btn-primary btn-block" data-bind="click: postaviDijagnozu">Postavi dijagnozu</button>
+            <button class="btn btn-primary btni" data-bind="click: postaviDijagnozu">Postavi dijagnozu</button>
           </div>
         </div>
         <!-- kartica dva -->
@@ -85,7 +87,7 @@
                 </tbody>
             </table>
           </div>
-          <button class="btn btn-primary btn-block" data-bind="visible: dodavanjeOmoguceno, click: dodajDijagnozuZaPacijenta">Dodaj dijagnozu za pacijenta</button>
+          <button class="btn btn-primary btni" data-bind="visible: dodavanjeOmoguceno, click: dodajDijagnozuZaPacijenta">Dodaj dijagnozu za pacijenta</button>
           <span data-bind="visible: odabraniSimptomi"><input class="w3-check w3-margin" type="checkbox" name="novaDijagnoza" data-bind="checked: unosNoveDijagnozeOmoguceno">Nijedna od ponuđenih</span>
 
             <div data-bind="visible: unosNoveDijagnozeOmoguceno">
@@ -98,8 +100,12 @@
                   <label for="formGroupExampleInput2">Opis dijagnoze</label>
                   <textarea type="text" class="form-control" id="formGroupExampleInput2" placeholder="Opis dijagnoze" data-bind="value: opisDijagnoze"></textarea>
                 </div>
+                <div class="form-group">
+                  <label for="sviLijekovi">Odabir lijeka</label>
+                  <select id="sviLijekovi" class="form-control" name="lijekovi" data-bind="options: sviLijekovi, optionsText: 'naziv', optionsValue: 'id', value: odabraniLijek"></select>
+                </div>
                 <div>
-                  <button class="btn btn-primary btn-block" data-bind="click: dodajNovuDijagnozu">Dodaj novu dijagnozu</button>
+                  <button class="btn btn-primary btni" data-bind="click: dodajNovuDijagnozu">Dodaj novu dijagnozu</button>
                 </div>
               </form>
             </div>

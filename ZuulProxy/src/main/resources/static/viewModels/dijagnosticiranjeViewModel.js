@@ -16,6 +16,9 @@ function dijagnosticiranjeViewModel() {
 	self.nazivDijagnoze = ko.observable("");
 	self.opisDijagnoze = ko.observable("");
 	
+	self.sviLijekovi = ko.observableArray();
+	self.odabraniLijek = ko.observable("");
+	
 	self.dajDijagnoze = function() {
 		// to d
 		
@@ -30,6 +33,19 @@ function dijagnosticiranjeViewModel() {
 	};
 	
 	self.dajDijagnoze();
+	
+	self.dajLijekove = function() {
+		$.getJSON("modul-za-odredjivanje-terapije/dajLijekove",
+		function (data) 
+		{
+			for (var i = 0; i < data.length; i++) 
+			{
+				self.sviLijekovi.push({ naziv: data[i].naziv, id: data[i].id, standardnaDoza: data[i].standardnaDoza});
+			}
+		}); 
+	}
+	
+	self.dajLijekove();
 
 	self.dodajSimptomKorisnika = function() {
 			
@@ -142,18 +158,26 @@ function dijagnosticiranjeViewModel() {
 
 						$.ajax("modul-dijagnoze/novaDijagnoza?simptomi=" + self.simptomi() + "&dijagnoza=" + self.nazivDijagnoze(), {
 							type: "get", contentType: "application/json",
-							success: function(data, textStatus, request) { 
+							success: function(data, textStatus, request) {
+								
 
 								$.ajax("modul-dijagnoze-pacijenti/dajIdDijagnoze?nazivDijagnoze=" + self.nazivDijagnoze(), {
 								type: "get", contentType: "application/json",
-								success: function(data, textStatus, request) { 
+								success: function(data, textStatus, request) {
+									
+										$.ajax("modul-za-odredjivanje-terapije/poveziDijagnozeILijekove?idLijeka=" + self.odabraniLijek() + "&idDijagnoze=" + data, {
+											type: "get", contentType: "application/json",
+											success: function(data, textStatus, request) {}
+										});
+									
 
-									$.ajax("modul-dijagnoze-pacijenti/poveziDijagnozuPacijenta?idPacijenta=" + self.idPacijenta() + "&idDijagnoze=" + data, {
-										type: "get", contentType: "application/json",
-										success: function(data, textStatus, request) { 
-											
-										}
-									});
+										$.ajax("modul-dijagnoze-pacijenti/poveziDijagnozuPacijenta?idPacijenta=" + self.idPacijenta() + "&idDijagnoze=" + data, {
+											type: "get", contentType: "application/json",
+											success: function(data, textStatus, request) { 
+												self.nazivDijagnoze("");
+												self.opisDijagnoze("");
+											}
+										});
 								}
 							});
 							}
