@@ -11,8 +11,8 @@ import org.springframework.data.repository.query.Param;
 public interface DijagnozeRepository extends PagingAndSortingRepository<Dijagnoze, Integer> {
 	Dijagnoze findById(@Param("id") int id);
 	
-	@Query( "SELECT d.naziv, d.opis "
+	@Query( "SELECT d.id, d.naziv, d.opis "
 		+	"FROM Dijagnoze d, Pacijenti p, DijagnozePacijenti dp "
 		+	"WHERE d.id = dp.dijagnoze AND p.id = dp.pacijenti AND p.id = :idPacijenta")
-	public List<Dijagnoze> vratiDijagnoze(@Param("idPacijenta") int idPacijenta);
+	public List<Object[]> vratiDijagnoze(@Param("idPacijenta") int idPacijenta);
 }
