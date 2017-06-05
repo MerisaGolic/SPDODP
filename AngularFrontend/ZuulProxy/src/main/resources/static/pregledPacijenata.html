@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Symptom This</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Custom styles for this template -->
+    <link href="css/kreirajDijagnozu.css" rel="stylesheet">
+    <!-- W3 CSS -->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  </head>
+
+  <body data-ng-app="myApp">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Symptom This</a>
+          <a class="navbar-brand" href="/drDijagnoze">Dijagnosticiranje</a>
+		  <a class="navbar-brand" href="/dodavanjeNoveDijagnoze">Unos nove dijagnoze</a>
+          <a class="navbar-brand" href="/dodavanjeLijeka">Unos novog lijeka</a>
+          <a class="navbar-brand" href="/logout">Logout</a>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="container" data-ng-controller="pregledPacijenataController">
+       <div class="col-md-1"></div>
+      <div class="col-md-6">
+      	<br>
+      
+        <h2>Spisak pacijenata:</h2><br>
+
+        <ul class="w3-ul w3-card-4" data-ng-model="izabraniPacijent">
+          <li class="w3-padding-16" data-ng-repeat="pacijent in sviPacijenti track by $index">
+              <img data-ng-src="{{pacijent.spol == 'm' && '/images/m.png' || '/images/z.png'}}" class="w3-right w3-circle w3-margin-right" style="width:70px">
+              <span>Ime i prezime: <span class="w3-large" >{{pacijent.imePrezime}}</span></span><br>
+              <span>Datum rođenja: <span >{{pacijent.datumRodjenja}}</span></span><br>
+              <span>Spol: <span >{{pacijent.spol}}</span></span><br>
+              <span>...........................................................................</span><br>
+              <button class="btn btn-danger" data-ng-click="$parent.brisanjePacijenta(pacijent)">Obriši</button> 
+             <!--  <button class="btn btn-primary" data-ng-click="$parent.dodajDijagnozu(pacijent)">Dodaj dijagnozu</button> --> 
+              <button class="btn btn-primary" id="myBtn" data-ng-click="$parent.informacijePacijent(pacijent)">Prikaži dijagnoze</button>
+          </li> 
+        </ul> 
+        <ul class="w3-ul w3-card-4">
+          <li class="w3-padding-16">
+            <img data-ng-src="{{spol == 'm' && '/images/m.png' || '/images/z.png'}}" class="w3-right w3-circle w3-margin-right" style="width:70px">
+            <div class="col-md-8">
+              <input type="text" class="w3-input" style="width:60%" placeholder="Ime i prezime pacijenta" data-ng-model="imePrezimeNovi">
+              <input type="date" id="datepicker" class="w3-input" style="width:60%" placeholder="Datum rođenja" data-ng-model="datumRodjenjaNovi">
+              <h3 style="display:inline"><span class="label label-primary">Spol</span></h3>
+              <label class="radio-inline"><input type="radio" name="spol" value="m" data-ng-model="spol">M</label>
+              <label class="radio-inline"><input type="radio" name="spol" value="z" data-ng-model="spol">Ž</label>
+            </div>
+            <span>...........................................................................</span><br>
+            <button class="btn btn-primary" data-ng-click="unosPacijenta()">Unesi pacijenta</button>
+          </li>
+        </ul>
+        
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-4" data-ng-show="prikazModala">
+      	<br>
+      	<BR>
+      	<br>
+      	<div class="page-header">
+          <button type="button" class="close" data-ng-click="zatvori()">&times;</button>
+          <h4 style="height:30px;">Dijagnoze</h4>
+          <h2>Pacijent: <span>{{imePacijenta}}</span></h2>
+        </div>
+        <div class="body">
+          <table class="table" class="table-striped" data-ng-model= "izabranaDijagnoza">
+              <thead>
+                  <tr><th>Naziv</th><th>Opis</th></tr>
+              </thead>
+              <tbody data-ng-repeat="dijagnoza in sveDijagnoze">
+                  <tr>
+                      <td>{{dijagnoza.naziv}}</td>
+                      <td>{{dijagnoza.opis}}</td>
+                  </tr>
+              </tbody>
+          </table>
+      	</div>
+      	</div>
+    </div> <!--container-->
+    <br><br>
+
+    <!-- Modal
+  <div class="modal  w3-card-4" id="myModal" role="dialog" data-ng-show="prikazModala">
+    <div class="modal-dialog">  -->
+
+      <!-- Modal content
+      <div class="modal-content w3-animate-zoom">
+        <div class="modal-header">
+          <button type="button" class="close" data-ng-click="zatvori()">&times;</button>
+          <h4 style="color:red;">Dijagnoze</h4>
+          <h2>Pacijent: <span data-ng-model="imePacijenta"></span></h2>
+        </div>
+        <div class="modal-body">
+          <table class="table" class="table-striped" data-ng-model= "izabranaDijagnoza">
+              <thead>
+                  <tr><th>Naziv</th><th>Opis</th><th>Terapija</th></tr>
+              </thead>
+              <tbody data-ng-repeat="dijagnonza in sveDijagnoze">
+                  <tr>
+                      <td>{{dijagnoza.naziv}}</td>
+                      <td>{{dijagnoza.opis}}</td>
+                  </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+    <div class="container">  
+      <footer>
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+    </div> <!-- /container -->
+
+
+
+    <script src = "js/app.js"></script>
+	<script src = "js/controller/pregledPacijenataController.js"></script>
+
+
+
+  </body>
+</html>

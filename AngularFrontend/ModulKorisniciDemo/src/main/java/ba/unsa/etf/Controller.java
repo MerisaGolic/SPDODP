@@ -85,13 +85,13 @@ public class Controller {
 	
 	@RequestMapping(value= "/brisanjePacijentaPoImenuIPrezimenu", method=RequestMethod.GET)
 	@ResponseBody
-	public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @CookieValue("Authorization") String cookie) {
+	public void brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @CookieValue("Authorization") String cookie) {
 		
 		int id = pr.findIdByName(imePrezime);
 		pr.delete(id);
 		String novi = "Authorization=" + cookie;
 		dpc.brisanjePacijenta(imePrezime,novi);
-		return "User succesfully deleted!";
+		
 	}
 	
 	@RequestMapping(value= "/login", method = RequestMethod.POST)

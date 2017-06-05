@@ -32,7 +32,8 @@
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="/">Symptom This</a>
-          <a class="navbar-brand" href="/dodavanjeNoveDijagnoze">Dodaj novu dijagnozu</a>
+          <a class="navbar-brand" href="/pacijenti">Pacijenti</a>
+          <a class="navbar-brand" href="/dodavanjeNoveDijagnoze">Unos nove dijagnoze</a>
           <a class="navbar-brand" href="/dodavanjeLijeka">Unos novog lijeka</a>
           <a class="navbar-brand" href="/logout">Logout</a>
         </div>
@@ -72,7 +73,7 @@
               <button class="btn btn-primary" data-ng-click="dodajSimptom()" >Dodaj simptom</button>
               
               <br><br>
-              <div data-ng-show="odabraniSimptomi"">
+              <div data-ng-show="odabraniSimptomi">
                 <h2 class="simptomiH1-2">Odabrani simptomi:</h2><br>
                 <div>
                       <ul class="list-group" data-ng-model="simptomZaBrisanje">

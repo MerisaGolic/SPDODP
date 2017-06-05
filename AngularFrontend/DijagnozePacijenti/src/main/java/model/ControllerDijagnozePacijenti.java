@@ -1,6 +1,8 @@
+
 package model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +49,20 @@ public class ControllerDijagnozePacijenti {
 	public List<Dijagnoze> vratiDijagnozePacijenta(@RequestParam(value="idPacijenta", defaultValue="0") int idPacijenta)
 	{
 		//Pacijenti p = pRepo.findOne(idPacijenta);
-		List<Dijagnoze> dijagnozePacijenta = dRepo.vratiDijagnoze(idPacijenta);
+		List<Object[]> dijagnozePacijenta = dRepo.vratiDijagnoze(idPacijenta);
+		List<Dijagnoze> lista = new ArrayList<Dijagnoze>();
+		
+		for(int i=0; i<dijagnozePacijenta.size(); i++ )
+		{
+			Dijagnoze d = new Dijagnoze();
+			d.setId((Integer)dijagnozePacijenta.get(i)[0]);
+			d.setNaziv((String)dijagnozePacijenta.get(i)[1]);
+			d.setOpis((String)dijagnozePacijenta.get(i)[2]);
+			
+			lista.add(d);
+		}
 
-		return dijagnozePacijenta;
+		return lista; //dijagnozePacijenta;
 
 	}
 
@@ -101,8 +114,16 @@ public class ControllerDijagnozePacijenti {
 	public String brisanjePacijenta(@RequestParam("imePrezime") String imePrezime, @RequestHeader(value="Cookie") String cookie) {
 
 		int id = pRepo.findIdByName(imePrezime);
+		
+		List<Integer> lista_id_dijagnoza = dpRepo.findIdByIdPacijenta(id);
+		
+		for(int i=0; i<lista_id_dijagnoza.size(); i++) {
+			dpRepo.delete(lista_id_dijagnoza.get(i));
+		}
+		
 		pRepo.delete(id);
 		return "User succesfully deleted!";
+		
 	}
 
 }
