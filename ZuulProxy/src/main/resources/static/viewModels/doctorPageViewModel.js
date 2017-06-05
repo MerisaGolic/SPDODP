@@ -142,7 +142,6 @@ function doctorPageViewModel() {
 							ideviDijagnoza += data[i][2];
 						}
 						
-						alert(ideviDijagnoza);
 						
 						var nazivi = [];
 						var opisi = [];

@@ -17,4 +17,9 @@ public interface LijekoviRepository extends PagingAndSortingRepository<Lijekovi,
 			+	"WHERE l.id = dl.lijekovi AND d.id = dl.dijagnoze AND d.id = :idDijagnoze")
 	public String vratiNazivLijeka(@Param("idDijagnoze") int idDijagnoze);
 	
+	@Query( "SELECT l.id "
+			+	"FROM Lijekovi l, Dijagnoze d, DijagnozeLijekovi dl "
+			+	"WHERE l.id = dl.lijekovi AND d.id = dl.dijagnoze AND d.id = :idDijagnoze")
+	public int vratiIdLijeka(@Param("idDijagnoze") int idDijagnoze);
+	
 }

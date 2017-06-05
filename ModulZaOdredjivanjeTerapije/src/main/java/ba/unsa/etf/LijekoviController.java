@@ -60,10 +60,11 @@ public class LijekoviController {
 	
 	
 	@RequestMapping("/izracunajDozu")
-	public double izracunaj(@RequestParam(value="idLijeka", defaultValue="World") int idLijeka, @RequestParam(value="idDijagnoze", defaultValue="World") int idDijagnoze, 
-			@RequestParam(value="secer", defaultValue="World") double secer, @RequestParam(value="eritrociti", defaultValue="World") double eritrociti,
-			@RequestParam(value="leukociti", defaultValue="World") double leukociti, @RequestParam(value="trombociti", defaultValue="World") double trombociti)
+	public String izracunaj(@RequestParam(value="idDijagnoze") int idDijagnoze, 
+			@RequestParam(value="secer", defaultValue="5") double secer, @RequestParam(value="eritrociti", defaultValue="4") double eritrociti,
+			@RequestParam(value="leukociti", defaultValue="5") double leukociti, @RequestParam(value="trombociti", defaultValue="200") double trombociti)
 	{
+		int idLijeka = lr.vratiIdLijeka(idDijagnoze);
 		String komb;
 		komb = Integer.toString(idLijeka) + Integer.toString(idDijagnoze);
 		int id = Integer.parseInt(komb);
@@ -91,7 +92,7 @@ public class LijekoviController {
 		if(trombociti < donjaTrombociti || trombociti > gornjaTrombociti)
 			doza += 0.12;
 		
-		return doza;
+		return l.getNaziv() + "," + doza;
 	}
 	
 	

@@ -17,6 +17,17 @@
     <link href="css/dijagnosticiranje.css" rel="stylesheet">
     <link href="css/kreirajDijagnozu.css" rel="stylesheet">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+		  .modal-header, h4, .close {
+		      background-color: #5cb85c;
+		      color:white !important;
+		      text-align: center;
+		      font-size: 30px;
+		  }
+		  .modal-footer {
+		      background-color: #f9f9f9;
+		  }
+	</style>
   </head>
 
   <body>
@@ -46,7 +57,7 @@
         <!-- prva kartica-->
         <div class="w3-card-4 w3-left w3-margin-right w3-margin-top" style="width:45%;">
           <header class="w3-container w3-black">
-            <h1 class="w3-center"><span class="w3-badge w3-white w3-left w3-margin-right">1</span> Odabir simptoma</h1>
+            <h1 class="w3-center"><span class="w3-badge w3-white w3-left w3-margin-right">1</span> Odabir simptoma i unos nalaza</h1>
           </header>
 
           <div class="w3-container w3-padding">
@@ -63,7 +74,15 @@
 
           <div data-bind="visible: odabraniSimptomi">
             <label class="w3-label">Prag u postocima</label>
-            <input class="w3-input w3-border" id="postotak" name="postotak" min="0" max="100" type="number" value="0" data-bind="value: pragFiltriranja" data-toggle="tooltip" title="Vrijednost je u procentima (%)" placeholder="0" /><br><br>
+            <input class="w3-input w3-border" id="postotak" name="postotak" min="0" max="100" type="number" value="0" data-bind="value: pragFiltriranja" data-toggle="tooltip" title="Vrijednost je u procentima (%)" placeholder="0" /><br>
+            <label class="w3-label">Šećer</label>
+            <input class="w3-input w3-border" id="secer" name="secer" min="0" type="number" value="0" data-bind="value: secer" placeholder="0"/><br>
+            <label class="w3-label">Eritrociti</label>
+            <input class="w3-input w3-border" id="eritrociti" name="eritrociti" min="0" type="number" value="0" data-bind="value: eritrociti" placeholder="0"/><br>
+            <label class="w3-label">Leukociti</label>
+            <input class="w3-input w3-border" id="leukociti" name="leukociti" min="0" type="number" data-bind="value: leukociti" value="0" placeholder="0"/><br>
+            <label class="w3-label">Trombociti</label>
+            <input class="w3-input w3-border" id="trombociti" name="trombociti" min="0" type="number" value="0" data-bind="value: trombociti" placeholder="0"/><br>
             <button class="btn btn-primary btni" data-bind="click: postaviDijagnozu">Postavi dijagnozu</button>
           </div>
         </div>
@@ -113,6 +132,23 @@
       </div>  
  
     </div><!-- /.container -->
+    
+    <div class="modal" id="terapijaModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 style="color:red;">Terapija</h4>
+        </div>
+        <div class="modal-body">
+          <h2>Terapija: <span data-bind="text: odredjeniLijek"></span></h2> 
+          <h2>Doza: <span data-bind="text: doza"></span></h2>
+        </div>
+      </div>
+    </div>
+  </div> 
 
     <div class="container">  
       <footer>
@@ -122,7 +158,9 @@
 
 
   <!--<script src="js/bootstrap.min.js"></script>-->
-  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <script src="js/knockout-3.4.2.js"></script>
   <script src="viewModels/dijagnosticiranjeViewModel.js"></script>
   </body>
