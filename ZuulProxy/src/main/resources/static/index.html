@@ -1,81 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
 
-    <title>Symptom This</title>
+<title>Symptom This</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-
-    <!-- Custom styles for this template -->
-    <link href="css/index.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/w3.css">
-  </head>
-
-  <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">Symptom This</a>
-          <a href="promijeniPassword.html" class="navbar-brand">Promjeni šifru</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right">
-            <div class="form-group">
-              <input type="text" placeholder="Username" class="form-control" data-bind="value: username">
-            </div>
-            <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control" data-bind="value: password">
-            </div>
-            <button type="submit" class="btn btn-success" data-bind="click: login">Sign in</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </nav>
-
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row" class="img-responsive" class="center-block">
-        <div class="col-md-12" >
-          <img src="images/logo.jpg"  alt="Responsive image" id="logoSlika">
-        </div> 
-      </div>
-    </div>
-
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Kreiraj svoju dijagnozu</h1>
-        <p>Ova aplikacija vam omogućava jednostavno dijagnosticiranje bolesti. Sve što je potrebno da uradite jeste da unesete simptome. Nakon što to uradite izvršiće 
-				se pretraga bolesti u bazi podataka, te će se prikazati one koje odgovaraju unesenim simptomima.</p>
-        <p><a class="btn btn-info" href="kreirajDijagnozu.html" role="button">Saznaj više &raquo;</a></p>
-      </div>
-    </div>
-
-    <div class="container">  
-      <footer>
-        <p>&copy; 2016 Company, Inc.</p>
-      </footer>
-    </div> <!-- /container -->
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
 
 
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery-3.2.1.min.js"></script>
-  <script src="js/knockout-3.4.2.js"></script>
-  <script src="viewModels/LoginViewModel.js"></script>
-  </body>
+<!-- Custom styles for this template -->
+<link href="css/index.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/w3.css">
+</head>
+
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">Symptom This</a> <a
+					href="promijeniPassword.html" class="navbar-brand">Promjeni
+					šifru</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<form class="navbar-form navbar-right">
+					<div class="form-group">
+						<input type="text" placeholder="Username" class="form-control"
+							data-bind="value: username">
+					</div>
+					<div class="form-group">
+						<input type="password" placeholder="Password" class="form-control"
+							data-bind="value: password">
+					</div>
+					<button type="submit" class="btn btn-success"
+						data-bind="click: login">Sign in</button>
+				</form>
+			</div>
+			<!--/.navbar-collapse -->
+		</div>
+	</nav>
+
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div class="container">
+		<!-- Example row of columns -->
+		<div class="row" class="img-responsive" class="center-block">
+			<div class="col-md-12">
+				<img src="images/logo.jpg" alt="Responsive image" id="logoSlika">
+			</div>
+		</div>
+	</div>
+
+	<div class="jumbotron">
+		<div class="container">
+			<h1>Kreiraj svoju dijagnozu</h1>
+			<p>Ova aplikacija vam omogućava jednostavno dijagnosticiranje
+				bolesti. Sve što je potrebno da uradite jeste da unesete simptome.
+				Nakon što to uradite izvršiće se pretraga bolesti u bazi podataka,
+				te će se prikazati one koje odgovaraju unesenim simptomima.</p>
+			<p>
+				<a class="btn btn-info" href="kreirajDijagnozu.html" role="button">Saznaj
+					više &raquo;</a>
+			</p>
+		</div>
+	</div>
+
+	<div class="container">
+		<footer>
+			<p>&copy; 2016 Company, Inc.</p>
+		</footer>
+	</div>
+	<!-- /container -->
+
+
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/knockout-3.4.2.js"></script>
+	<script src="viewModels/LoginViewModel.js"></script>
+</body>
 </html>
