@@ -59,19 +59,14 @@ public class LijekoviController {
 	
 	
 	@RequestMapping("/izracunajDozu")
-	public double izracunaj(@RequestParam(value="idLijeka", defaultValue="World") int idLijeka, @RequestParam(value="idDijagnoze", defaultValue="World") int idDijagnoze, 
-			@RequestParam(value="secer", defaultValue="World") double secer, @RequestParam(value="eritrociti", defaultValue="World") double eritrociti,
-			@RequestParam(value="leukociti", defaultValue="World") double leukociti, @RequestParam(value="trombociti", defaultValue="World") double trombociti)
+	public String izracunaj(@RequestParam(value="idDijagnoze", defaultValue="0") int idDijagnoze, 
+			@RequestParam(value="secer", defaultValue="0") double secer, 
+			@RequestParam(value="eritrociti", defaultValue="0") double eritrociti,
+			@RequestParam(value="leukociti", defaultValue="0") double leukociti, 
+			@RequestParam(value="trombociti", defaultValue="0") double trombociti)
 	{
-		String komb;
-		komb = Integer.toString(idLijeka) + Integer.toString(idDijagnoze);
-		int id = Integer.parseInt(komb);
-		DijagnozeLijekovi dl = dlr.findOne(id);
-		dl.setSecer(secer);
-		dl.setEritrociti(eritrociti);
-		dl.setLeukociti(leukociti);
-		dl.setTrombociti(trombociti);
-		dlr.save(dl);
+		
+		int idLijeka = lr.vratiIdLijeka(idDijagnoze);
 		
 		Lijekovi l = lr.findOne(idLijeka);
 		Dijagnoze d = dr.findOne(idDijagnoze);
@@ -90,7 +85,8 @@ public class LijekoviController {
 		if(trombociti < donjaTrombociti || trombociti > gornjaTrombociti)
 			doza += 0.12;
 		
-		return doza;
+		String data = "{\"naziv\":\""+l.getNaziv()+"\", \"doza\":\""+ Double.toString(doza)+"\" }";
+		return data;
 	}
 	
 	

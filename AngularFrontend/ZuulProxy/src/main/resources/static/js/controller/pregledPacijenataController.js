@@ -5,6 +5,7 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 	$scope.sviPacijenti = [];
 	$scope.sveDijagnoze = [];
 	$scope.prikazModala = false;
+	$scope.prikazNalaza = false;
 	$scope.spol = "z";
 	
 	/*$("#datepicker").datepicker({
@@ -117,6 +118,31 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 			
 		}
 	};
+	var izabranaDijagnoza = 0;
 	
-	
+	$scope.unosNalaza = function(id){
+		$scope.prikazNalaza = true;
+		console.log("moze");
+		izabranaDijagnoza = id;
+		
+	};
+	$scope.izracunajTerapiju = function(){
+		var doza = 0;
+		//alert("id"+izabranaDijagnoza+"s"+$scope.secer+"e"+ $scope.eritrociti+"l"+$scope.leukociti+"t" +$scope.trombociti);
+		$http({
+			method: 'GET',
+			url: 'modul-za-odredjivanje-terapije/izracunajDozu?idDijagnoze='+ izabranaDijagnoza +
+			                                                 '&secer='+$scope.secer +
+			                                                 '&eritrociti='+ $scope.eritrociti+
+			                                                 '&leukociti=' + $scope.leukociti +
+			                                                 '&trombociti=' + $scope.trombociti,
+			contentType: "application/json"
+		}).success(function(data){
+			$scope.message = "Potrebno je uzimati " + data["doza"] +"mg lijeka " + data["naziv"] + "!";
+			$scope.prikazNalaza = false;
+		}).error(function(error){
+			console.log(error);
+			alert("Nije izracunata doza!");
+		});
+	};
 }]);

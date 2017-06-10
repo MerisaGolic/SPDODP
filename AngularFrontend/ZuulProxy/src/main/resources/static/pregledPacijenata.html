@@ -55,7 +55,6 @@
               <span>Spol: <span >{{pacijent.spol}}</span></span><br>
               <span>...........................................................................</span><br>
               <button class="btn btn-danger" data-ng-click="$parent.brisanjePacijenta(pacijent)">Obriši</button> 
-             <!--  <button class="btn btn-primary" data-ng-click="$parent.dodajDijagnozu(pacijent)">Dodaj dijagnozu</button> --> 
               <button class="btn btn-primary" id="myBtn" data-ng-click="$parent.informacijePacijent(pacijent)">Prikaži dijagnoze</button>
           </li> 
         </ul> 
@@ -76,7 +75,7 @@
         
       </div>
       <div class="col-md-1"></div>
-      <div class="col-md-4" data-ng-show="prikazModala">
+      <div class="col-md-5" data-ng-show="prikazModala">
       	<br>
       	<BR>
       	<br>
@@ -88,47 +87,33 @@
         <div class="body">
           <table class="table" class="table-striped" data-ng-model= "izabranaDijagnoza">
               <thead>
-                  <tr><th>Naziv</th><th>Opis</th></tr>
+                  <tr><th>Naziv</th><th>Opis</th><th></th></tr>
               </thead>
               <tbody data-ng-repeat="dijagnoza in sveDijagnoze">
                   <tr>
                       <td>{{dijagnoza.naziv}}</td>
                       <td>{{dijagnoza.opis}}</td>
+                      <td><button class="btn btn-primary" data-ng-click="unosNalaza(dijagnoza.id)">Odredi terapiju</button></td>
                   </tr>
               </tbody>
           </table>
       	</div>
+      	{{message}}
+      	<div data-ng-show="prikazNalaza">
+      		<label class="w3-label">Šećer</label>
+            <input class="w3-input w3-border" id="secer" name="secer" min="0" type="number" data-ng-model="secer" placeholder="0"/><br>
+            <label class="w3-label">Eritrociti</label>
+            <input class="w3-input w3-border" id="eritrociti" name="eritrociti" min="0" type="number" data-ng-model="eritrociti" placeholder="0"/><br>
+            <label class="w3-label">Leukociti</label>
+            <input class="w3-input w3-border" id="leukociti" name="leukociti" min="0" type="number" data-ng-model="leukociti" placeholder="0"/><br>
+            <label class="w3-label">Trombociti</label>
+            <input class="w3-input w3-border" id="trombociti" name="trombociti" min="0" type="number" data-ng-model="trombociti" placeholder="0"/><br>
+      	    <button class="btn btn-primary" data-ng-click="izracunajTerapiju()">Izračunaj terapiju</button>
       	</div>
+      	</div>
+ 
     </div> <!--container-->
     <br><br>
-
-    <!-- Modal
-  <div class="modal  w3-card-4" id="myModal" role="dialog" data-ng-show="prikazModala">
-    <div class="modal-dialog">  -->
-
-      <!-- Modal content
-      <div class="modal-content w3-animate-zoom">
-        <div class="modal-header">
-          <button type="button" class="close" data-ng-click="zatvori()">&times;</button>
-          <h4 style="color:red;">Dijagnoze</h4>
-          <h2>Pacijent: <span data-ng-model="imePacijenta"></span></h2>
-        </div>
-        <div class="modal-body">
-          <table class="table" class="table-striped" data-ng-model= "izabranaDijagnoza">
-              <thead>
-                  <tr><th>Naziv</th><th>Opis</th><th>Terapija</th></tr>
-              </thead>
-              <tbody data-ng-repeat="dijagnonza in sveDijagnoze">
-                  <tr>
-                      <td>{{dijagnoza.naziv}}</td>
-                      <td>{{dijagnoza.opis}}</td>
-                  </tr>
-              </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div> -->
 
     <div class="container">  
       <footer>
