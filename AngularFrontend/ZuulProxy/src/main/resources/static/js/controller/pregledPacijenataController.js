@@ -5,14 +5,8 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 	$scope.sviPacijenti = [];
 	$scope.sveDijagnoze = [];
 	$scope.prikazModala = false;
+	$scope.prikazNalaza = false;
 	$scope.spol = "z";
-	
-	/*$("#datepicker").datepicker({
-		dateFormat: "yy-mm-dd",
-		changeMonth: true,
-		changeYear: true,
-		yearRange: "c-100:c"
-	});*/
 	
 	var id_doktora = 0;
 
@@ -22,7 +16,6 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 		contentType: "application/json"
 	}).success(function(data){
 
-		console.log(data);
 		id_doktora = data;
 
 	}).error(function(error){
@@ -53,7 +46,7 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 			url: 'modul-za-korisnike/brisanjePacijentaPoImenuIPrezimenu?imePrezime=' + izabraniPacijent.imePrezime,
 			contentType: "application/json"
 		}).success(function(data){
-			alert("Pacijent usmjesno obrisan!");
+			//alert("Pacijent usmjesno obrisan!");
 		}).error(function(error){
 			console.log(error);
 			alert("Pacijent nije obrisan!");
@@ -71,8 +64,8 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 			url: 'modul-dijagnoze-pacijenti/sveDijagnozePacijenta?idPacijenta=' + izabraniPacijent.id,
 			contentType: "application/json"
 		}).success(function(data){
-			alert("Dijagnoze dosle!");
-			console.log(data);
+			//alert("Dijagnoze dosle!");
+			//console.log(data);
 			$scope.sveDijagnoze = data;
 		}).error(function(error){
 			console.log(error);
@@ -110,13 +103,38 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 					$scope.sviPacijenti.push({"id": data,"imePrezime": $scope.imePrezimeNovi, "datumRodjenja": $scope.datumRodjenjaNovi, "spol": $scope.spol});
 				}).error(function(error){
 					console.log(error);
-					alert("Nisu nadjen pacijent!");
+					alert("Nije nadjen pacijent!");
 				});
 			
 			});
 			
 		}
 	};
+	var izabranaDijagnoza = 0;
 	
-	
+	$scope.unosNalaza = function(id){
+		$scope.prikazNalaza = true;
+		
+		izabranaDijagnoza = id;
+		
+	};
+	$scope.izracunajTerapiju = function(){
+		var doza = 0;
+		
+		$http({
+			method: 'GET',
+			url: 'modul-za-odredjivanje-terapije/izracunajDozu?idDijagnoze='+ izabranaDijagnoza +
+			                                                 '&secer='+$scope.secer +
+			                                                 '&eritrociti='+ $scope.eritrociti+
+			                                                 '&leukociti=' + $scope.leukociti +
+			                                                 '&trombociti=' + $scope.trombociti,
+			contentType: "application/json"
+		}).success(function(data){
+			$scope.message = "Potrebno je uzimati " + data["doza"] +"mg lijeka " + data["naziv"] + "!";
+			$scope.prikazNalaza = false;
+		}).error(function(error){
+			console.log(error);
+			alert("Nije izracunata doza!");
+		});
+	};
 }]);
