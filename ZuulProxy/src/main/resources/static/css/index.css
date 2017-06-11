@@ -9,3 +9,12 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 }
+
+#error {
+	width: 33%;
+    margin: 0 auto;
+}
+
+.glyphicon {
+	font-size: 75px;
+}

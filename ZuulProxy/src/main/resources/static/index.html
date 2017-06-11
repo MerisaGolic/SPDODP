@@ -84,9 +84,28 @@
 	</div>
 	<!-- /container -->
 
+	<div id="loginErrorModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
 
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div id="error">
+						<span class="glyphicon glyphicon-remove-sign"></span>
+					</div>
+                    <p>Neispravan username ili password!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery-3.2.1.min.js"></script>
+	<!--  <script src="js/jquery-3.2.1.min.js"></script> -->
 	<script src="js/knockout-3.4.2.js"></script>
 	<script src="viewModels/LoginViewModel.js"></script>
 </body>

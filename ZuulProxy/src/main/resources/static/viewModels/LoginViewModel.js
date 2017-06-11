@@ -6,7 +6,8 @@ function LoginViewModel() {
 		$.ajax("/modul-za-korisnike/login", {
 			data: ko.toJSON({ username: self.username, password: self.password}),
 			type: "post", contentType: "application/json",
-			success: function(data, textStatus, request) { sessionStorage.setItem('doktor', 3); window.location="doctorPage.html"; }
+			success: function(data, textStatus, request) { sessionStorage.setItem('doktor', 3); window.location="doctorPage.html"; },
+			error: function(xhr, text, err) { $('#loginErrorModal').modal('show'); }
 		});
 	};
 }

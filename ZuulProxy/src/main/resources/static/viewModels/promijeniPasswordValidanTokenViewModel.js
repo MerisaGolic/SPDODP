@@ -1,10 +1,15 @@
 function promijeniPasswordValidanTokenViewModel() {
 	self = this;
 	self.password = ko.observable();
+	
+	function validirajPassword(password) {
+		  var regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+		  return regex.test(password);
+	}
 
 	self.promijeniPassword = function() {
-		if (self.password() == "") {
-			alert("uneseite parametre");
+		if (!validirajPassword(self.password())) {
+			$('#passwordErrorModal').modal('show');
 		}else {
 			
 			$.ajax("/modul-za-korisnike/korisnik/sacuvajPassword", {
@@ -13,7 +18,7 @@ function promijeniPasswordValidanTokenViewModel() {
 				success: function(data, textStatus, request) 
 				{ 
 					self.password("");
-					alert(data);
+					$('#passwordSuccessModal').modal('show');
 				}
 			});
 		}
