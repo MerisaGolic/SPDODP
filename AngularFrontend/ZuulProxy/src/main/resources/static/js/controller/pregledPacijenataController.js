@@ -8,13 +8,6 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 	$scope.prikazNalaza = false;
 	$scope.spol = "z";
 	
-	/*$("#datepicker").datepicker({
-		dateFormat: "yy-mm-dd",
-		changeMonth: true,
-		changeYear: true,
-		yearRange: "c-100:c"
-	});*/
-	
 	var id_doktora = 0;
 
 	$http({
@@ -23,7 +16,6 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 		contentType: "application/json"
 	}).success(function(data){
 
-		console.log(data);
 		id_doktora = data;
 
 	}).error(function(error){
@@ -54,7 +46,7 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 			url: 'modul-za-korisnike/brisanjePacijentaPoImenuIPrezimenu?imePrezime=' + izabraniPacijent.imePrezime,
 			contentType: "application/json"
 		}).success(function(data){
-			alert("Pacijent usmjesno obrisan!");
+			//alert("Pacijent usmjesno obrisan!");
 		}).error(function(error){
 			console.log(error);
 			alert("Pacijent nije obrisan!");
@@ -72,8 +64,8 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 			url: 'modul-dijagnoze-pacijenti/sveDijagnozePacijenta?idPacijenta=' + izabraniPacijent.id,
 			contentType: "application/json"
 		}).success(function(data){
-			alert("Dijagnoze dosle!");
-			console.log(data);
+			//alert("Dijagnoze dosle!");
+			//console.log(data);
 			$scope.sveDijagnoze = data;
 		}).error(function(error){
 			console.log(error);
@@ -111,7 +103,7 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 					$scope.sviPacijenti.push({"id": data,"imePrezime": $scope.imePrezimeNovi, "datumRodjenja": $scope.datumRodjenjaNovi, "spol": $scope.spol});
 				}).error(function(error){
 					console.log(error);
-					alert("Nisu nadjen pacijent!");
+					alert("Nije nadjen pacijent!");
 				});
 			
 			});
@@ -122,13 +114,13 @@ app.controller('pregledPacijenataController',['$window','$scope','$http', functi
 	
 	$scope.unosNalaza = function(id){
 		$scope.prikazNalaza = true;
-		console.log("moze");
+		
 		izabranaDijagnoza = id;
 		
 	};
 	$scope.izracunajTerapiju = function(){
 		var doza = 0;
-		//alert("id"+izabranaDijagnoza+"s"+$scope.secer+"e"+ $scope.eritrociti+"l"+$scope.leukociti+"t" +$scope.trombociti);
+		
 		$http({
 			method: 'GET',
 			url: 'modul-za-odredjivanje-terapije/izracunajDozu?idDijagnoze='+ izabranaDijagnoza +

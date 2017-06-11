@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,7 +68,6 @@ public class LijekoviController {
 		int idLijeka = lr.vratiIdLijeka(idDijagnoze);
 		
 		Lijekovi l = lr.findOne(idLijeka);
-		Dijagnoze d = dr.findOne(idDijagnoze);
 		
 		double doza = l.getStandardnaDoza();
 		
@@ -84,6 +82,12 @@ public class LijekoviController {
 		
 		if(trombociti < donjaTrombociti || trombociti > gornjaTrombociti)
 			doza += 0.12;
+		
+		if(doza - (int)doza < 0.5)
+			doza =  (int)doza;
+		else
+			doza = ((int)doza + 1);
+	
 		
 		String data = "{\"naziv\":\""+l.getNaziv()+"\", \"doza\":\""+ Double.toString(doza)+"\" }";
 		return data;

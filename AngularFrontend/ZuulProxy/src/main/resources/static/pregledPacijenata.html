@@ -49,7 +49,7 @@
 
         <ul class="w3-ul w3-card-4" data-ng-model="izabraniPacijent">
           <li class="w3-padding-16" data-ng-repeat="pacijent in sviPacijenti track by $index">
-              <img data-ng-src="{{pacijent.spol == 'm' && '/images/m.png' || '/images/z.png'}}" class="w3-right w3-circle w3-margin-right" style="width:70px">
+              <img data-ng-src="{{(pacijent.spol == 'M' || pacijent.spol == 'm') && '/images/m.png' || '/images/z.png'}}" class="w3-right w3-circle w3-margin-right" style="width:70px">
               <span>Ime i prezime: <span class="w3-large" >{{pacijent.imePrezime}}</span></span><br>
               <span>Datum rođenja: <span >{{pacijent.datumRodjenja}}</span></span><br>
               <span>Spol: <span >{{pacijent.spol}}</span></span><br>
