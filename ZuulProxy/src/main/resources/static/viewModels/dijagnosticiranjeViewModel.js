@@ -110,47 +110,54 @@ function dijagnosticiranjeViewModel() {
 
 	self.dodajDijagnozuZaPacijenta = function() {
 		
-		var idDijagnoze;
-
-		/*if (self.odabranaDijagnozaNaziv() =="") {
-			alert("Odaberite neku od dijagnoza ili unseite novu");
-			return null;
-		}*/
-		
-		var data = sessionStorage.getItem('imePacijenta');
-		
-		$.ajax("modul-za-korisnike/dajIdPacijenta?imePrezime=" + data, {
-			type: "get", contentType: "application/json",
-			success: function(data, textStatus, request) { 
-
-				self.idPacijenta(data);
-
-				$.ajax("modul-dijagnoze-pacijenti/dajIdDijagnoze?nazivDijagnoze=" + $('input[name=odaberi]:checked').val(), {
-					type: "get", contentType: "application/json",
-					success: function(data, textStatus, request) {
-						idDijagnoze = data;
-						$.ajax("modul-dijagnoze-pacijenti/poveziDijagnozuPacijenta?idPacijenta=" + self.idPacijenta() + "&idDijagnoze=" + data, {
-							type: "get", contentType: "application/json",
-							success: function(data, textStatus, request) {
-								$.ajax("modul-za-odredjivanje-terapije/izracunajDozu?idDijagnoze=" + idDijagnoze + "&secer=" + self.secer()
-										+ "&eritrociti=" + self.eritrociti() + "&leukociti=" + self.leukociti() + "&trombociti=" + self.trombociti(), {
-									type: "get", contentType: "application/json",
-									success: function(data, textStatus, request) { 
-										var res = data.split(",");
-										self.odredjeniLijek(res[0]);
-										self.doza(res[1]);
-										$("#terapijaModal").modal('show');
-									}
-								});
-								self.odredjeniLijek("");
-								self.doza("");
-							}
-						});
-					}
-				});
-
-			}
-		});
+		if($('#odaberi').is(':checked'))
+		{
+			var idDijagnoze;
+	
+			/*if (self.odabranaDijagnozaNaziv() =="") {
+				alert("Odaberite neku od dijagnoza ili unseite novu");
+				return null;
+			}*/
+			
+			var data = sessionStorage.getItem('imePacijenta');
+			
+			$.ajax("modul-za-korisnike/dajIdPacijenta?imePrezime=" + data, {
+				type: "get", contentType: "application/json",
+				success: function(data, textStatus, request) { 
+	
+					self.idPacijenta(data);
+	
+					$.ajax("modul-dijagnoze-pacijenti/dajIdDijagnoze?nazivDijagnoze=" + $('input[name=odaberi]:checked').val(), {
+						type: "get", contentType: "application/json",
+						success: function(data, textStatus, request) {
+							idDijagnoze = data;
+							$.ajax("modul-dijagnoze-pacijenti/poveziDijagnozuPacijenta?idPacijenta=" + self.idPacijenta() + "&idDijagnoze=" + data, {
+								type: "get", contentType: "application/json",
+								success: function(data, textStatus, request) {
+									$.ajax("modul-za-odredjivanje-terapije/izracunajDozu?idDijagnoze=" + idDijagnoze + "&secer=" + self.secer()
+											+ "&eritrociti=" + self.eritrociti() + "&leukociti=" + self.leukociti() + "&trombociti=" + self.trombociti(), {
+										type: "get", contentType: "application/json",
+										success: function(data, textStatus, request) { 
+											var res = data.split(",");
+											self.odredjeniLijek(res[0]);
+											self.doza(res[1]);
+											$("#terapijaModal").modal('show');
+										}
+									});
+									self.odredjeniLijek("");
+									self.doza("");
+								}
+							});
+						}
+					});
+	
+				}
+			});
+		}
+		else
+		{
+			$("#dodavanjeDijagnozeErrorModal").modal('show');
+		}
 	}
 
 	self.dobaviIdPacijenta = function() {
@@ -167,7 +174,7 @@ function dijagnosticiranjeViewModel() {
 
 	self.dodajNovuDijagnozu = function() {
 		if (self.nazivDijagnoze()=="" || self.opisDijagnoze()=="") {
-			alert("unesite naziv i opis dijagnoze");
+			$("#unosDijagnozeErrorModal").modal('show');
 			return null;
 		}
 		

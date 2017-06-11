@@ -13,7 +13,9 @@
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
+
 <!-- Custom styles for this template -->
+<link href="css/doctorPage.css" rel="stylesheet">
 <link href="css/kreirajDijagnozu.css" rel="stylesheet">
 <!-- W3 CSS -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -106,7 +108,7 @@
 							style="width: 50%" placeholder="Ime i prezime pacijenta"
 							data-bind="value: imePrezime"> <input type="text"
 							id="datepicker" class="w3-input w3-animate-input"
-							style="width: 50%" placeholder="Datum rođenja"
+							style="width: 50%" placeholder="Datum rođenja(GGGG/MM/DD)"
 							data-bind="value: datumRodjenja">
 						<h3 style="display: inline">
 							<span class="label label-primary">Spol</span>
@@ -168,6 +170,63 @@
 		</footer>
 	</div>
 	<!-- /container -->
+	
+	<div id="unosErrorModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="ikona">
+						<span class="glyphicon glyphicon-remove-sign"></span>
+					</div>
+                    <p class="poruka">Neispravni parametri za unos pacijenta!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<div id="unosSuccessModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="ikona">
+						<span class="glyphicon glyphicon-ok-sign"></span>
+					</div>
+                    <p class="poruka">Uspješno unesen pacijent!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<div id="brisanjeSuccessModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="ikona">
+						<span class="glyphicon glyphicon-ok-sign"></span>
+					</div>
+                    <p class="poruka">Uspješno obrisan pacijent!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 
 

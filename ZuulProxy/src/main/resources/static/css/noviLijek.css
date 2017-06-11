@@ -14,3 +14,16 @@
 	margin-right: 2%;
 	margin-bottom: 2%;
 }
+
+.poruka {
+	text-align: center;
+}
+
+.ikona {
+	width: 33%;
+    margin: 0 auto;
+}
+
+.glyphicon.glyphicon-ok-sign, .glyphicon.glyphicon-remove-sign {
+	font-size: 75px;
+}

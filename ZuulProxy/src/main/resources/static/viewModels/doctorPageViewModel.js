@@ -6,7 +6,7 @@ function doctorPageViewModel() {
 	self.sviPacijenti = ko.observableArray([]);
 	self.imePrezime = ko.observable("");
 	self.datumRodjenja = ko.observable("");
-	self.spol = ko.observable("");
+	self.spol = ko.observable("M");
 	self.imePacijenta = ko.observable("");
 	self.dijagnozePacijenta = ko.observableArray([]);
 	
@@ -89,14 +89,15 @@ function doctorPageViewModel() {
 		
 		$.ajax(url, {
 			type: "get", contentType: "application/json",
-			success: function(data, textStatus, request) { 
+			success: function(data, textStatus, request) {
+				$("#brisanjeSuccessModal").modal('show');
 			}
 		});
 	}
 
 	self.unosPacijenta = function() {
 		if (self.imePrezime() == "" || self.datumRodjenja() == "" || self.spol() == "") {
-			alert("uneseite parametre");
+			$("#unosErrorModal").modal('show');
 		}else {
 			self.pacijenti.push([self.datumRodjenja(), self.imePrezime(), self.spol()]);
 			self.sviPacijenti.push([self.datumRodjenja(), self.imePrezime(), self.spol()]);
@@ -110,6 +111,11 @@ function doctorPageViewModel() {
 					self.imePrezime(""); 
 					self.datumRodjenja(""); 
 					self.spol(""); 
+					$("#unosSuccessModal").modal('show');
+				},
+				error: function(xhr, text, err)
+				{
+					$("#unosErrorModal").modal('show');
 				}
 			});
 

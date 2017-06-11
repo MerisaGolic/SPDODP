@@ -130,7 +130,7 @@
 							<tr>
 								<td data-bind="text: $data.naziv"></td>
 								<td data-bind="text: $data.opis"></td>
-								<td><input class="w3-radio" type="radio" name="odaberi"
+								<td><input id="odaberi" class="w3-radio" type="radio" name="odaberi"
 									data-bind="value: $data.naziv" />Odaberi</td>
 							</tr>
 						</tbody>
@@ -202,6 +202,44 @@
 		</footer>
 	</div>
 	<!-- /container -->
+	
+	<div id="dodavanjeDijagnozeErrorModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="ikona">
+						<span class="glyphicon glyphicon-remove-sign"></span>
+					</div>
+                    <p class="poruka">Morate odabrati dijagnozu!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	
+	<div id="unosDijagnozeErrorModal" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-sm">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="ikona">
+						<span class="glyphicon glyphicon-remove-sign"></span>
+					</div>
+                    <p class="poruka">Morate unijeti naziv i opis dijagnoze!</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Zatvori</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
 
 
 	<!--<script src="js/bootstrap.min.js"></script>-->

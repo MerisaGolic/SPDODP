@@ -7,3 +7,16 @@
 	display: block;
 	float: right;
 }
+
+.poruka {
+	text-align: center;
+}
+
+.ikona {
+	width: 33%;
+    margin: 0 auto;
+}
+
+.glyphicon.glyphicon-ok-sign, .glyphicon.glyphicon-remove-sign {
+	font-size: 75px;
+}
