@@ -21,7 +21,7 @@ function promijeniPasswordViewModel() {
 					$('#emailSuccessModal').modal('show');
 					//window.location = "promijeniPasswordValidanTokenViewModel.html";
 				},
-				error(xhr, text, err)
+				error: function(xhr, text, err)
 				{
 					$('#emailErrorModal').modal('show');
 				}

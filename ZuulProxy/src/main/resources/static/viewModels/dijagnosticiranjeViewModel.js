@@ -110,7 +110,8 @@ function dijagnosticiranjeViewModel() {
 
 	self.dodajDijagnozuZaPacijenta = function() {
 		
-		if($('#odaberi').is(':checked'))
+		//if($('#odaberi').is(':checked'))
+		if ($("input[name='odaberi']:checked").val())
 		{
 			var idDijagnoze;
 	
